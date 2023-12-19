@@ -64,7 +64,7 @@ ANY_REGEX = r".*?"
 FILE_REGEX = r"\s*(?P<file_name>\S.*?)\s*?"
 LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"
 COLUMN_REGEX = r"\s*(?P<column>\d+?)\s*?"
-SEVERITY_REGEX = r"\s*(?P<severity>error|warning|notice)\s*?"
+SEVERITY_REGEX = r"\s*(?P<severity>error|warning|notice|style|info)\s*?"
 MSG_REGEX = r"\s*(?P<message>.+?)\s*?"
 # cpplint confidence index
 CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
@@ -73,7 +73,7 @@ CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
-    # ESLint (JavaScript Linter), RoboCop, shellcheck
+    # ESLint (JavaScript Linter), RoboCop
     # path/to/file.js:10:2: Some linting issue
     # path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
     # path/to/script.sh:10:1: SC2034: Some shell script issue
@@ -97,6 +97,9 @@ PATTERNS = [
     # path/to/file.py:10: [C0111] Missing docstring
     # others
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}: {MSG_REGEX}$"),
+    # Shellcheck:
+    # In script.sh line 76:
+    re.compile(f"^In {FILE_REGEX} line {LINE_REGEX}:({MSG_REGEX})?$"),
 ]
 
 # Severities available in CodeSniffer report format
@@ -137,6 +140,9 @@ def parse_message(message):
             result["severity"] = SEVERITY_ERROR
         else:
             result["severity"] = result["severity"].lower()
+
+        if result["severity"] in ["info", "style"]:
+            result["severity"] = SEVERITY_NOTICE
 
         return result
 
