@@ -73,12 +73,30 @@ CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
-    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}:{MSG_REGEX}$"),
+    # ESLint (JavaScript Linter), RoboCop, shellcheck
+    # path/to/file.js:10:2: Some linting issue
+    # path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
+    # path/to/script.sh:10:1: SC2034: Some shell script issue
+    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}: {MSG_REGEX}$"),
     # Cpplint default output:
     #           '%s:%s:  %s  [%s] [%d]\n'
     #   % (filename, linenum, message, category, confidence)
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{MSG_REGEX}{CONFIDENCE_REGEX}$"),
-    # re.compile(f"^{ANY_REGEX}:{LINE_REGEX}:{MSG_REGEX}$"),
+    # MSVC
+    # file.cpp(10): error C1234: Some error message
+    re.compile(
+        f"^{FILE_REGEX}\\({LINE_REGEX}\\):{SEVERITY_REGEX}{MSG_REGEX}$"
+    ),
+    # Java compiler
+    # File.java:10: error: Some error message
+    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{SEVERITY_REGEX}:{MSG_REGEX}$"),
+    # Python
+    # File ".../logToCs.py", line 90 (note: code line follows)
+    re.compile(f'^File "{FILE_REGEX}", line {LINE_REGEX}$'),
+    # Pylint, others
+    # path/to/file.py:10: [C0111] Missing docstring
+    # others
+    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}: {MSG_REGEX}$"),
 ]
 
 # Severities available in CodeSniffer report format
