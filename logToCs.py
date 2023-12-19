@@ -66,15 +66,25 @@ LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"
 COLUMN_REGEX = r"\s*(?P<column>\d+?)\s*?"
 SEVERITY_REGEX = r"\s*(?P<severity>error|warning|notice)\s*?"
 MSG_REGEX = r"\s*(?P<message>.+?)\s*?"
+# cpplint confidence index
+CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
 
 
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}:{MSG_REGEX}$"),
-    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{MSG_REGEX}$"),
+    # Cpplint default output:
+    #           '%s:%s:  %s  [%s] [%d]\n'
+    #   % (filename, linenum, message, category, confidence)
+    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{MSG_REGEX}{CONFIDENCE_REGEX}$"),
     # re.compile(f"^{ANY_REGEX}:{LINE_REGEX}:{MSG_REGEX}$"),
 ]
+
+# Severities available in CodeSniffer report format
+SEVERITY_NOTICE = "notice"
+SEVERITY_WARNING = "warning"
+SEVERITY_ERROR = "error"
 
 
 def parse_message(message):
@@ -91,8 +101,22 @@ def parse_message(message):
         if len(result) == 0:
             continue
 
+        if "confidence" in result:
+            # Convert confidence level of cpplint
+            # to warning, etc.
+            confidence = int(result["confidence"])
+            del result["confidence"]
+
+            if confidence <= 1:
+                severity = SEVERITY_NOTICE
+            elif confidence >= 5:
+                severity = SEVERITY_ERROR
+            else:
+                severity = SEVERITY_WARNING
+            result["severity"] = severity
+
         if "severity" not in result:
-            result["severity"] = "error"
+            result["severity"] = SEVERITY_ERROR
         else:
             result["severity"] = result["severity"].lower()
 
