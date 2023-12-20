@@ -49,7 +49,7 @@ License: MIT License
 import argparse
 import re
 import sys
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # nosec
 
 
 def convert_to_checkstyle(messages):

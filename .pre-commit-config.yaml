@@ -21,6 +21,7 @@ repos:
           - mdformat-black
           - mdformat-web
           - mdformat-gfm
+          - setuptools
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -69,6 +70,12 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
+    rev: v1.0.6
+    hooks:
+      - id: python-bandit-vulnerability-check
+        #args: [--skip, 'B101,B311', --recursive, .]
+        args: [--recursive, .]
   - repo: https://github.com/fsouza/autoflake8
     rev: v0.4.1
     hooks:
@@ -105,8 +112,8 @@ repos:
     hooks:
       - id: isort
         args: [--profile, black]
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v3.0.0a5
+  - repo: https://github.com/pylint-dev/pylint
+    rev: v3.0.3
     hooks:
       - id: pylint
   - repo: https://github.com/pre-commit/mirrors-mypy
