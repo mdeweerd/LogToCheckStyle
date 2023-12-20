@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# pylint: disable=invalid-name
 """
 Convert a log to CheckStyle format.
 
@@ -52,6 +53,9 @@ import xml.etree.ElementTree as ET
 
 
 def convert_to_checkstyle(messages):
+    """
+    Convert provided message to CheckStyle format.
+    """
     root = ET.Element("checkstyle")
     for message in messages:
         fields = parse_message(message)
@@ -115,10 +119,10 @@ def parse_message(message):
     Returns the fields in a dict.
     """
     for pattern in PATTERNS:
-        m = pattern.match(message)
-        if not m:
+        fields = pattern.match(message)
+        if not fields:
             continue
-        result = m.groupdict()
+        result = fields.groupdict()
         if len(result) == 0:
             continue
 
@@ -150,7 +154,7 @@ def parse_message(message):
     return None
 
 
-def add_error_entry(
+def add_error_entry(  # pylint: disable=too-many-arguments
     root,
     severity,
     file_name,
@@ -159,6 +163,9 @@ def add_error_entry(
     message=None,
     source=None,
 ):
+    """
+    Add error information to the CheckStyle output being created.
+    """
     file_element = find_or_create_file_element(root, file_name)
     error_element = ET.SubElement(file_element, "error")
     error_element.set("severity", severity)
@@ -174,6 +181,9 @@ def add_error_entry(
 
 
 def find_or_create_file_element(root, file_name):
+    """
+    Find/create file element in XML document tree.
+    """
     for file_element in root.findall("file"):
         if file_element.get("name") == file_name:
             return file_element
@@ -183,6 +193,9 @@ def find_or_create_file_element(root, file_name):
 
 
 def main():
+    """
+    Parse the script arguments and get the conversion done.
+    """
     parser = argparse.ArgumentParser(
         description="Convert messages to Checkstyle XML format."
     )
@@ -209,10 +222,10 @@ def main():
     args = parser.parse_args()
 
     if args.input == "-" and args.input_named:
-        with open(args.input_named) as input_file:
+        with open(args.input_named, encoding="utf_8") as input_file:
             messages = input_file.readlines()
     elif args.input != "-":
-        with open(args.input) as input_file:
+        with open(args.input, encoding="utf_8") as input_file:
             messages = input_file.readlines()
     else:
         messages = sys.stdin.readlines()
@@ -220,10 +233,10 @@ def main():
     checkstyle_xml = convert_to_checkstyle(messages)
 
     if args.output == "-" and args.output_named:
-        with open(args.output_named, "w") as output_file:
+        with open(args.output_named, "w", encoding="utf_8") as output_file:
             output_file.write(checkstyle_xml)
     elif args.output != "-":
-        with open(args.output, "w") as output_file:
+        with open(args.output, "w", encoding="utf_8") as output_file:
             output_file.write(checkstyle_xml)
     else:
         print(checkstyle_xml)
