@@ -116,6 +116,8 @@ repos:
     rev: v3.0.3
     hooks:
       - id: pylint
+        additional_dependencies:
+          - regex
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.7.1
     hooks:
@@ -128,4 +130,4 @@ repos:
           - --show-error-codes
           - --show-error-context
           - --disable-error-code=name-defined
-        additional_dependencies: [tkcalendar>=1.5.0, types-pytz]
+        additional_dependencies: [tkcalendar>=1.5.0, types-pytz, regex]
