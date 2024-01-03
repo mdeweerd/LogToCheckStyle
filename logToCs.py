@@ -77,10 +77,19 @@ CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
-    # ESLint (JavaScript Linter), RoboCop
-    # path/to/file.js:10:2: Some linting issue
-    # path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
-    # path/to/script.sh:10:1: SC2034: Some shell script issue
+    # beautysh
+    #  File ftp.sh: error: "esac" before "case" in line 90.
+    re.compile(
+        f"^File {FILE_REGEX}:{SEVERITY_REGEX}:"
+        f" {MSG_REGEX} in line {LINE_REGEX}.$"
+    ),
+    # beautysh
+    #  File socks4echo.sh: error: indent/outdent mismatch: -2.
+    re.compile(f"^File {FILE_REGEX}:{SEVERITY_REGEX}: {MSG_REGEX}$"),
+    # ESLint (JavaScript Linter), RoboCop, shellcheck
+    #  path/to/file.js:10:2: Some linting issue
+    #  path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
+    #  path/to/script.sh:10:1: SC2034: Some shell script issue
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}: {MSG_REGEX}$"),
     # Cpplint default output:
     #           '%s:%s:  %s  [%s] [%d]\n'
