@@ -47,12 +47,13 @@ License: MIT License
 """
 
 import argparse
+import os
 import re
 import sys
 import xml.etree.ElementTree as ET  # nosec
 
 
-def convert_to_checkstyle(messages):
+def convert_to_checkstyle(messages, root_path=None):
     """
     Convert provided message to CheckStyle format.
     """
@@ -60,18 +61,18 @@ def convert_to_checkstyle(messages):
     for message in messages:
         fields = parse_message(message)
         if fields:
-            add_error_entry(root, **fields)
+            add_error_entry(root, **fields, root_path=root_path)
     return ET.tostring(root, encoding="utf-8").decode("utf-8")
 
 
-def convert_text_to_checkstyle(text):
+def convert_text_to_checkstyle(text, root_path=None):
     """
     Convert provided message to CheckStyle format.
     """
     root = ET.Element("checkstyle")
     for fields in parse_file(text):
         if fields:
-            add_error_entry(root, **fields)
+            add_error_entry(root, **fields, root_path=root_path)
     return ET.tostring(root, encoding="utf-8").decode("utf-8")
 
 
@@ -128,6 +129,13 @@ PATTERNS = [
     re.compile(
         f"^In {FILE_REGEX} line {LINE_REGEX}:{EOL_REGEX}?"
         f"({MULTILINE_MSG_REGEX})?{EOL_REGEX}{EOL_REGEX}"
+    ),
+    # eslint:
+    #  /path/to/filename
+    #    14:5  error  Unexpected trailing comma  comma-dangle
+    re.compile(
+        f"^{FILE_REGEX}{EOL_REGEX}"
+        rf"\s+{LINE_REGEX}:{COLUMN_REGEX}\s+{SEVERITY_REGEX}\s+{MSG_REGEX}$"
     ),
 ]
 
@@ -248,11 +256,14 @@ def add_error_entry(  # pylint: disable=too-many-arguments
     column=None,
     message=None,
     source=None,
+    root_path=None,
 ):
     """
     Add error information to the CheckStyle output being created.
     """
-    file_element = find_or_create_file_element(root, file_name)
+    file_element = find_or_create_file_element(
+        root, file_name, root_path=root_path
+    )
     error_element = ET.SubElement(file_element, "error")
     error_element.set("severity", severity)
     if line:
@@ -266,10 +277,13 @@ def add_error_entry(  # pylint: disable=too-many-arguments
         error_element.set("source", source)
 
 
-def find_or_create_file_element(root, file_name):
+def find_or_create_file_element(root, file_name: str, root_path=None):
     """
     Find/create file element in XML document tree.
     """
+
+    if root_path is not None:
+        file_name = file_name.removeprefix(root_path)
     for file_element in root.findall("file"):
         if file_element.get("name") == file_name:
             return file_element
@@ -304,6 +318,12 @@ def main():
         "--output-named",
         help="Named output file. Overrides positional output.",
     )
+    parser.add_argument(
+        "--root",
+        metavar="ROOT_PATH",
+        help="Root directory to remove from file paths",
+        default=os.path.dirname(os.path.abspath(__file__)),
+    )
 
     args = parser.parse_args()
 
@@ -316,10 +336,14 @@ def main():
     else:
         text = sys.stdin.read()
 
+    root_path = os.path.join(args.root, "")
+
     try:
-        checkstyle_xml = convert_text_to_checkstyle(text)
+        checkstyle_xml = convert_text_to_checkstyle(text, root_path=root_path)
     except ImportError:
-        checkstyle_xml = convert_to_checkstyle(re.split(r"[\r\n]+", text))
+        checkstyle_xml = convert_to_checkstyle(
+            re.split(r"[\r\n]+", text), root_path=root_path
+        )
 
     if args.output == "-" and args.output_named:
         with open(args.output_named, "w", encoding="utf_8") as output_file:
