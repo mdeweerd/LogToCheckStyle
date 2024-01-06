@@ -9,6 +9,23 @@ added to "PATTERNS" to match more messages.
 
 To allow multiline patterns, the python module 'regex' is required.
 
+## OPTIONS
+
+```text
+positional arguments:
+  input                 Input file. Use '-' for stdin.
+  output                Output file. Use '-' for stdout.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_NAMED, --in INPUT_NAMED
+                        Input filename. Overrides positional input.
+  -o OUTPUT_NAMED, --out OUTPUT_NAMED
+                        Output filename. Overrides positional output.
+  --root ROOT_PATH      Root directory to remove from file paths.
+                        Defaults to working directory.
+```
+
 ## Examples
 
 Assumes that logToCs.py is available as .github/logToCs.py.

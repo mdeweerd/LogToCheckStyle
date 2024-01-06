@@ -310,19 +310,22 @@ def main():
     )
     parser.add_argument(
         "-i",
-        "--input-named",
-        help="Named input file. Overrides positional input.",
+        "--in",
+        dest="input_named",
+        help="Input filename. Overrides positional input.",
     )
     parser.add_argument(
         "-o",
-        "--output-named",
-        help="Named output file. Overrides positional output.",
+        "--out",
+        dest="output_named",
+        help="Output filename. Overrides positional output.",
     )
     parser.add_argument(
         "--root",
         metavar="ROOT_PATH",
-        help="Root directory to remove from file paths",
-        default=os.path.dirname(os.path.abspath(__file__)),
+        help="Root directory to remove from file paths."
+        "  Defaults to working directory.",
+        default=os.getcwd(),
     )
 
     args = parser.parse_args()
