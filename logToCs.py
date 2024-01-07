@@ -159,7 +159,12 @@ def parse_file(text):
     Returns the fields in a dict.
     """
     # regex required to allow same group names
-    import regex  # pylint: disable=import-outside-toplevel
+    try:
+        import regex  # pylint: disable=import-outside-toplevel
+    except ImportError as exc:
+        raise ImportError(
+            "The 'parsefile' method requires 'python -m pip install regex'"
+        ) from exc
 
     patterns = [pattern.pattern for pattern in PATTERNS]
     # patterns = [PATTERNS[0].pattern]
