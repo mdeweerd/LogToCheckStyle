@@ -348,12 +348,12 @@ def main():
 
     if args.input == "-" and args.input_named:
         with open(
-            args.input_named, encoding="utf_8", errors="replace"
+            args.input_named, encoding="utf_8", errors="surrogateescape"
         ) as input_file:
             text = input_file.read()
     elif args.input != "-":
         with open(
-            args.input, encoding="utf_8", errors="replace"
+            args.input, encoding="utf_8", errors="surrogateescape"
         ) as input_file:
             text = input_file.read()
     else:
