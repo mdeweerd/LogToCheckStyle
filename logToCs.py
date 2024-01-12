@@ -53,6 +53,17 @@ import sys
 import xml.etree.ElementTree as ET  # nosec
 
 
+def remove_prefix(string, prefix):
+    """
+    Remove prefix from string
+
+    Provided for backward compatibility.
+    """
+    if prefix and string.startswith(prefix):
+        return string[len(prefix) :]
+    return string
+
+
 def convert_to_checkstyle(messages, root_path=None):
     """
     Convert provided message to CheckStyle format.
@@ -62,7 +73,7 @@ def convert_to_checkstyle(messages, root_path=None):
         fields = parse_message(message)
         if fields:
             add_error_entry(root, **fields, root_path=root_path)
-    return ET.tostring(root, encoding="utf-8").decode("utf-8")
+    return ET.tostring(root, encoding="utf_8").decode("utf_8")
 
 
 def convert_text_to_checkstyle(text, root_path=None):
@@ -73,7 +84,7 @@ def convert_text_to_checkstyle(text, root_path=None):
     for fields in parse_file(text):
         if fields:
             add_error_entry(root, **fields, root_path=root_path)
-    return ET.tostring(root, encoding="utf-8").decode("utf-8")
+    return ET.tostring(root, encoding="utf_8").decode("utf_8")
 
 
 ANY_REGEX = r".*?"
@@ -288,7 +299,7 @@ def find_or_create_file_element(root, file_name: str, root_path=None):
     """
 
     if root_path is not None:
-        file_name = file_name.removeprefix(root_path)
+        file_name = remove_prefix(file_name, root_path)
     for file_element in root.findall("file"):
         if file_element.get("name") == file_name:
             return file_element
