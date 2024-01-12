@@ -347,10 +347,14 @@ def main():
     args = parser.parse_args()
 
     if args.input == "-" and args.input_named:
-        with open(args.input_named, encoding="utf_8") as input_file:
+        with open(
+            args.input_named, encoding="utf_8", errors="replace"
+        ) as input_file:
             text = input_file.read()
     elif args.input != "-":
-        with open(args.input, encoding="utf_8") as input_file:
+        with open(
+            args.input, encoding="utf_8", errors="replace"
+        ) as input_file:
             text = input_file.read()
     else:
         text = sys.stdin.read()
