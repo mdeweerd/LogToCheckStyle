@@ -162,6 +162,23 @@ PATTERNS = [
     ),
 ]
 
+# Exceptionnaly some regexes match messages that are not error.
+# This pattern matches those exceptions
+EXCLUDE_MSG_PATTERN = re.compile(
+    r"^("
+    r"Placeholder pattern"  # To remove on first message pattern
+    r")"
+)
+
+# Exceptionnaly some regexes match messages that are not error.
+# This pattern matches those exceptions
+EXCLUDE_FILE_PATTERN = re.compile(
+    r"^("
+    # Codespell:  (appears as a file name):
+    r"Used config files\b"
+    r")"
+)
+
 # Severities available in CodeSniffer report format
 SEVERITY_NOTICE = "notice"
 SEVERITY_WARNING = "warning"
@@ -181,7 +198,7 @@ def parse_file(text):
 
     Returns the fields in a dict.
     """
-    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-branches,too-many-statements
     # regex required to allow same group names
     try:
         import regex  # pylint: disable=import-outside-toplevel
@@ -212,6 +229,7 @@ def parse_file(text):
         confidence = result.pop("confidence", None)
         new_file_group = result.pop("file_group", None)
         file_endgroup = result.pop("file_endgroup", None)
+        message = result.get("message", None)
 
         if new_file_group is not None:
             # Start of file_group, just store file
@@ -228,6 +246,15 @@ def parse_file(text):
                 result["file_name"] = file_name
             else:
                 # No filename, skip
+                continue
+        else:
+            if EXCLUDE_FILE_PATTERN.search(file_name):
+                # This file_name is excluded
+                continue
+
+        if message is not None:
+            if EXCLUDE_MSG_PATTERN.search(message):
+                # This message is excluded
                 continue
 
         if confidence is not None:
