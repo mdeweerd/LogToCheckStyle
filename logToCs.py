@@ -10,6 +10,10 @@ The log can then be used for generating annotations in a github action.
 Note: this script is very young and "quick and dirty".
       Patterns can be added to "PATTERNS" to match more messages.
 
+master
+dmmy
+xwindows
+
 # Examples
 
 Assumes that logToCs.py is available as .github/logToCs.py.
