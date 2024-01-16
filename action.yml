@@ -1,0 +1,23 @@
+--- action.yml
+...
+---
+name: logToCheckStyle
+description: Greet someone and record the time
+inputs:
+  in:
+    description: Source log path
+    required: true
+  out:
+    description: Target path
+    required: true
+  root:
+    description: Prefix to remove from paths in log
+    required: false
+    default:
+# outputs:
+#  outpath:  # id of output
+#    description: The the output path
+runs:
+  using: docker
+  image: Dockerfile
+  args: ['${{ inputs.in }}', '${{ inputs.out }}', '${{ inputs.root }}']
