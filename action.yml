@@ -1,0 +1,23 @@
+---
+# action.yml
+#
+name: logToCheckStyle
+description: Convert text log to CheckStyle xml format
+inputs:
+  in:
+    description: Source log path (Textual input log)
+    required: true
+  out:
+    description: Target log path (CheckStyle xml format log)
+    required: true
+  root:
+    description: Prefix to remove from paths in log
+    required: false
+    default:
+# outputs:
+#  outpath:  # id of output
+#    description: The output path
+runs:
+  using: docker
+  image: Dockerfile
+  args: ['${{ inputs.in }}', '${{ inputs.out }}', '${{ inputs.root }}']
