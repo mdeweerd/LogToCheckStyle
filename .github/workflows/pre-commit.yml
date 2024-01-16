@@ -34,6 +34,12 @@ jobs:
         if: ${{ failure() }}
         run: |
           python ${LOG_TO_CS} ${RAW_LOG} ${CS_XML}
+      - name: Convert Raw Log to Checkstyle format (launch action)
+        uses: mdeweerd/logToCheckStyle@v2024.1.4
+        if: ${{ failure() }}
+        with:
+          in: ${{ env.RAW_LOG }}
+          out: ${{ env.CS_XML }}
       - name: Annotate Source Code with Messages
         uses: staabm/annotate-pull-request-from-checkstyle-action@v1
         if: ${{ failure() }}
