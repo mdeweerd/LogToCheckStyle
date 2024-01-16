@@ -30,10 +30,17 @@ jobs:
           set -o pipefail
           pre-commit gc
           pre-commit run --show-diff-on-failure --color=always --all-files | tee ${RAW_LOG}
-      - name: Convert Raw Log to CheckStyle format
-        if: ${{ failure() }}
+      - name: Convert Raw Log to CheckStyle format (launch script)
+        # if: ${{ failure() }}
+        if: false
         run: |
           python ${LOG_TO_CS} ${RAW_LOG} ${CS_XML}
+      - name: Convert Raw Log to Checkstyle format (launch action)
+        uses: mdeweerd/logToCheckStyle@v2024.1.5
+        if: ${{ failure() }}
+        with:
+          in: ${{ env.RAW_LOG }}
+          out: ${{ env.CS_XML }}
       - name: Annotate Source Code with Messages
         uses: staabm/annotate-pull-request-from-checkstyle-action@v1
         if: ${{ failure() }}
