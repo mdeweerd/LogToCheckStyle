@@ -14,10 +14,14 @@ inputs:
     description: Prefix to remove from paths in log
     required: false
     default:
+  annotate:
+    description: Turn annotation off/on (will default = true in github workflow in future)
+    required: false
+    default: false  # Turning off by default for now
 # outputs:
 #  outpath:  # id of output
 #    description: The output path
 runs:
   using: docker
   image: Dockerfile
-  args: ['${{ inputs.in }}', '${{ inputs.out }}', '${{ inputs.root }}']
+  args: ['${{ inputs.in }}', '${{ inputs.out }}', '${{ inputs.root }}', '${{ inputs.annotate }}' ]

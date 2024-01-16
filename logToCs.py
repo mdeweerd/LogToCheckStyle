@@ -47,10 +47,14 @@ License: MIT License
 """
 
 import argparse
+import datetime as dt
+import json
 import os
 import re
 import sys
 import xml.etree.ElementTree as ET  # nosec
+
+import requests
 
 
 def remove_prefix(string, prefix):
@@ -64,27 +68,146 @@ def remove_prefix(string, prefix):
     return string
 
 
-def convert_to_checkstyle(messages, root_path=None):
+def convert_annotations_to_checkstyle(annotations, root_path=None):
     """
-    Convert provided message to CheckStyle format.
+    Convert annotation list to CheckStyle xml string
     """
     root = ET.Element("checkstyle")
-    for message in messages:
-        fields = parse_message(message)
-        if fields:
-            add_error_entry(root, **fields, root_path=root_path)
+    for fields in annotations:
+        add_error_entry(root, **fields, root_path=root_path)
     return ET.tostring(root, encoding="utf_8").decode("utf_8")
 
 
-def convert_text_to_checkstyle(text, root_path=None):
+def convert_lines_to_annotations(lines):
     """
     Convert provided message to CheckStyle format.
     """
-    root = ET.Element("checkstyle")
-    for fields in parse_file(text):
+    annotations = []
+    for line in lines:
+        fields = parse_message(line)
         if fields:
-            add_error_entry(root, **fields, root_path=root_path)
-    return ET.tostring(root, encoding="utf_8").decode("utf_8")
+            annotations.append(fields)
+    return annotations
+
+
+def convert_text_to_annotations(text):
+    """
+    Convert provided message to CheckStyle format.
+    """
+    return parse_file(text)
+
+
+# Initial version for Checkrun from:
+# https://github.com/tayfun/flake8-your-pr/blob/50a175cde4dd26a656734c5b64ba1e5bb27151cb/src/main.py#L7C1-L123C36
+# MIT Licence
+class CheckRun:
+    """
+    Represents the check run
+    """
+
+    GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", None)
+    GITHUB_EVENT_PATH = os.environ.get("GITHUB_EVENT_PATH", None)
+
+    URI = "https://api.github.com"
+    API_VERSION = "2022-11-28"
+    ACCEPT_HEADER_VALUE = "application/vnd.github+json"
+    AUTH_HEADER_VALUE = f"Bearer {GITHUB_TOKEN}"
+    # This is the max annotations Github API accepts in one go.
+    MAX_ANNOTATIONS = 50
+
+    def __init__(self):
+        """
+        Initialise Check Run object with information from checkrun
+        """
+        self.read_event_file()
+        self.read_meta_data()
+
+    def read_event_file(self):
+        """
+        Read the event file to get the event information later.
+        """
+        if self.GITHUB_EVENT_PATH is None:
+            raise ValueError("Not running in github workflow")
+        with open(self.GITHUB_EVENT_PATH, encoding="utf_8") as event_file:
+            self.event = json.loads(event_file.read())
+
+    def read_meta_data(self):
+        """
+        Get meta data from event information
+        """
+        self.repo_full_name = self.event["repository"]["full_name"]
+        pull_request = self.event.get("pull_request")
+        print("%r", self.event)
+        if pull_request:
+            self.head_sha = pull_request["head"]["sha"]
+        else:
+            print("%r", self.event)
+            check_suite = self.event.get("check_suite", None)
+            if check_suite is not None:
+                self.head_sha = check_suite["pull_requests"][0]["base"]["sha"]
+            else:
+                self.head_sha = None  # Can't annotate?
+
+    def submit(  # pylint: disable=too-many-arguments
+        self,
+        annotations,
+        title=None,
+        summary=None,
+        text=None,
+        conclusion=None,
+    ):
+        """
+        Submit annotations to github
+
+        See:
+        https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28
+              #update-a-check-run
+
+        :param conclusion: success, failure
+        """
+        if self.head_sha is None:
+            return
+
+        output = {
+            "annotations": annotations[: CheckRun.MAX_ANNOTATIONS],
+        }
+        if title is not None:
+            output["title"] = title
+        if summary is not None:
+            output["summary"] = summary
+        if text is not None:
+            output["text"] = text
+        if conclusion is None:
+            # action_required, cancelled, failure, neutral, success
+            # skipped, stale, timed_out
+            if bool(annotations):
+                conclusion = "failure"
+            else:
+                conclusion = "success"
+
+        payload = {
+            "name": "log-to-pr-annotation",
+            "head_sha": self.head_sha,
+            "status": "completed",  # queued, in_progress, completed
+            "conclusion": conclusion,
+            # "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "completed_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "output": output,
+        }
+
+        # Create the check-run
+        response = requests.post(
+            f"{self.URI}/repos/{self.repo_full_name}/check-runs",
+            headers={
+                "Accept": self.ACCEPT_HEADER_VALUE,
+                "Authorization": self.AUTH_HEADER_VALUE,
+                "X-GitHub-Api-Version": self.API_VERSION,
+            },
+            json=payload,
+            timeout=30,
+        )
+        print(response.content)
+        response.raise_for_status()
 
 
 ANY_REGEX = r".*?"
@@ -405,6 +528,12 @@ def main():
         "  Defaults to working directory.",
         default=os.getcwd(),
     )
+    parser.add_argument(
+        "--github-annotate",
+        action=argparse.BooleanOptionalAction,
+        help="Annotate when in Github workflow.",
+        default=(os.environ.get("GITHUB_EVENT_PATH", None) is not None),
+    )
 
     args = parser.parse_args()
 
@@ -424,11 +553,13 @@ def main():
     root_path = os.path.join(args.root, "")
 
     try:
-        checkstyle_xml = convert_text_to_checkstyle(text, root_path=root_path)
+        annotations = convert_text_to_annotations(text)
     except ImportError:
-        checkstyle_xml = convert_to_checkstyle(
-            re.split(r"[\r\n]+", text), root_path=root_path
-        )
+        annotations = convert_lines_to_annotations(re.split(r"[\r\n]+", text))
+
+    checkstyle_xml = convert_annotations_to_checkstyle(
+        annotations, root_path=root_path
+    )
 
     if args.output == "-" and args.output_named:
         with open(args.output_named, "w", encoding="utf_8") as output_file:
@@ -438,6 +569,10 @@ def main():
             output_file.write(checkstyle_xml)
     else:
         print(checkstyle_xml)
+
+    if args.github_annotate:
+        checkrun = CheckRun()
+        checkrun.submit(annotations)
 
 
 if __name__ == "__main__":
