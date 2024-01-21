@@ -54,8 +54,6 @@ import re
 import sys
 import xml.etree.ElementTree as ET  # nosec
 
-import requests
-
 
 def remove_prefix(string, prefix):
     """
@@ -68,29 +66,29 @@ def remove_prefix(string, prefix):
     return string
 
 
-def convert_annotations_to_checkstyle(annotations, root_path=None):
+def convert_notices_to_checkstyle(notices, root_path=None):
     """
     Convert annotation list to CheckStyle xml string
     """
     root = ET.Element("checkstyle")
-    for fields in annotations:
+    for fields in notices:
         add_error_entry(root, **fields, root_path=root_path)
     return ET.tostring(root, encoding="utf_8").decode("utf_8")
 
 
-def convert_lines_to_annotations(lines):
+def convert_lines_to_notices(lines):
     """
     Convert provided message to CheckStyle format.
     """
-    annotations = []
+    notices = []
     for line in lines:
         fields = parse_message(line)
         if fields:
-            annotations.append(fields)
-    return annotations
+            notices.append(fields)
+    return notices
 
 
-def convert_text_to_annotations(text):
+def convert_text_to_notices(text):
     """
     Convert provided message to CheckStyle format.
     """
@@ -150,7 +148,7 @@ class CheckRun:
 
     def submit(  # pylint: disable=too-many-arguments
         self,
-        annotations,
+        notices,
         title=None,
         summary=None,
         text=None,
@@ -165,11 +163,14 @@ class CheckRun:
 
         :param conclusion: success, failure
         """
+        # pylint: disable=import-outside-toplevel
+        import requests  # Import here to not impose presence of module
+
         if self.head_sha is None:
             return
 
         output = {
-            "annotations": annotations[: CheckRun.MAX_ANNOTATIONS],
+            "annotations": notices[: CheckRun.MAX_ANNOTATIONS],
         }
         if title is not None:
             output["title"] = title
@@ -180,7 +181,7 @@ class CheckRun:
         if conclusion is None:
             # action_required, cancelled, failure, neutral, success
             # skipped, stale, timed_out
-            if bool(annotations):
+            if bool(notices):
                 conclusion = "failure"
             else:
                 conclusion = "success"
@@ -338,7 +339,7 @@ def parse_file(text):
     results = []
 
     for fields in regex.finditer(
-        full_regex, strip_ansi(text), regex.MULTILINE
+        full_regex, strip_ansi(text), regex.MULTILINE | regex.IGNORECASE
     ):
         if not fields:
             continue
@@ -414,7 +415,7 @@ def parse_message(message):
     Returns the fields in a dict.
     """
     for pattern in PATTERNS:
-        fields = pattern.match(message)
+        fields = pattern.match(message, re.IGNORECASE)
         if not fields:
             continue
         result = fields.groupdict()
@@ -532,7 +533,9 @@ def main():
         "--github-annotate",
         action=argparse.BooleanOptionalAction,
         help="Annotate when in Github workflow.",
-        default=(os.environ.get("GITHUB_EVENT_PATH", None) is not None),
+        # Currently disabled,
+        #  Future: (os.environ.get("GITHUB_EVENT_PATH", None) is not None),
+        default=False,
     )
 
     args = parser.parse_args()
@@ -553,12 +556,12 @@ def main():
     root_path = os.path.join(args.root, "")
 
     try:
-        annotations = convert_text_to_annotations(text)
+        notices = convert_text_to_notices(text)
     except ImportError:
-        annotations = convert_lines_to_annotations(re.split(r"[\r\n]+", text))
+        notices = convert_lines_to_notices(re.split(r"[\r\n]+", text))
 
-    checkstyle_xml = convert_annotations_to_checkstyle(
-        annotations, root_path=root_path
+    checkstyle_xml = convert_notices_to_checkstyle(
+        notices, root_path=root_path
     )
 
     if args.output == "-" and args.output_named:
@@ -572,7 +575,7 @@ def main():
 
     if args.github_annotate:
         checkrun = CheckRun()
-        checkrun.submit(annotations)
+        checkrun.submit(notices)
 
 
 if __name__ == "__main__":
