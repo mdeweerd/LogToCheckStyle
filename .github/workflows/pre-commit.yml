@@ -49,14 +49,14 @@ jobs:
           notices-as-warnings: true  # optional
           prepend-filename: true  # optional
       - uses: actions/cache/save@v3
-        if: ${{ always() }}
+        if: ${{ ! cancelled() }}
         with:
           path: ~/.cache/pre-commit/
           key: pre-commit-4|${{ env.pythonLocation }}|${{ hashFiles('.pre-commit-config.yaml')
             }}
       - name: Provide log as artifact
         uses: actions/upload-artifact@v3
-        if: ${{ always() }}
+        if: ${{ ! cancelled() }}
         with:
           name: precommit-logs
           path: |
