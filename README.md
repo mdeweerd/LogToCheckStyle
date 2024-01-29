@@ -53,6 +53,10 @@ Assumes that logToCs.py is available as .github/logToCs.py.
       .github/logToCs.py pre-commit.log | cs2pr
 ```
 
+## Hints
+
+- `phpcs`: Use `--report=emacs` (when running with `pre-commit`).
+
 ## Author(s):
 
 - https://github.com/mdeweerd

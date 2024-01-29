@@ -247,6 +247,12 @@ PATTERNS = [
     re.compile(r"^##(?P<file_endgroup>\[endgroup\])$"),  # End file group
     #  File socks4echo.sh: error: indent/outdent mismatch: -2.
     re.compile(f"^File {FILE_REGEX}:{SEVERITY_REGEX}: {MSG_REGEX}$"),
+    # Emacs style
+    #  path/to/file:845:5: error - Expected 1 space after closing brace
+    re.compile(
+        rf"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}:{SEVERITY_REGEX}"
+        rf"-?\s{MSG_REGEX}$"
+    ),
     # ESLint (JavaScript Linter), RoboCop, shellcheck
     #  path/to/file.js:10:2: Some linting issue
     #  path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
