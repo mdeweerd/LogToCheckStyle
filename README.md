@@ -26,11 +26,34 @@ optional arguments:
                         Defaults to working directory.
 ```
 
-## Examples
+## Run as a github action (no extra resources)
+
+This runs `logToCs.py` which outputs "github action commands" that result
+in source code annotations.
+
+For an example, see
+[a github action for this project](.github/workflows/pre-commit.yml).
+
+```yaml
+  - name: Convert Raw Log to Checkstyle format (launch action)
+    uses: mdeweerd/logToCheckStyle@v2024.2.2
+    if: ${{ failure() }}
+    with:
+      in: ${{ env.RAW_LOG }}
+      # Out can be omitted if you do not need the xml output
+      out: ${{ env.CS_XML }}
+```
+
+## Run as a github action (local resources)
 
 Assumes that logToCs.py is available as .github/logToCs.py.
 
-### Example 1:
+### Example 1 (old):
+
+This is the older method of running `logToCs.py`. It is no longer needed to
+use `staabm/annotate-pull-request-from-checkstyle-action`, in fact, when
+`GITHUB_ACTIONS` is `true`, `logToCs.py` will write the appropriate
+commands to stdout resulting in code annotations.
 
 ```yaml
   - run: |
@@ -42,7 +65,9 @@ Assumes that logToCs.py is available as .github/logToCs.py.
       notices-as-warnings: true     # optional
 ```
 
-### Example 2:
+### Example 2 (old):
+
+Also old, `logToCs.py` now handles annotation by itself.
 
 ```yaml
   - run: |
