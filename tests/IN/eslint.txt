@@ -1,1 +1,1 @@
-::error line=14,col=5::Unexpected trailing comma  comma-dangle
+::error file=/home/runner/work/hassio-trash-card/hassio-trash-card/src/localize.ts,line=14,col=5::Unexpected trailing comma  comma-dangle

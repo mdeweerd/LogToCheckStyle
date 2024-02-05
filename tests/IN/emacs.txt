@@ -1,8 +1,8 @@
-::error line=59,col=1::Expected 1 space after IF keyword; 0 found
-::error line=845,col=5::Expected 1 space after closing brace; newline found
-::error line=846,col=2::Line indented incorrectly; expected 1 tabs, found 1 spaces
-::error line=846,col=2::Expected 1 space after ELSEIF keyword; newline found
-::error line=847,col=2::Line indented incorrectly; expected at least 1 tabs, found 1 spaces
-::error line=847,col=24::Expected 1 space after closing parenthesis; found newline
-::error line=848,col=1::Line indented incorrectly; expected at least 1 tabs, found 0
-::error line=851,col=5::Closing brace indented incorrectly; expected 1 spaces, found 4
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=59,col=1::Expected 1 space after IF keyword; 0 found
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=845,col=5::Expected 1 space after closing brace; newline found
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=846,col=2::Line indented incorrectly; expected 1 tabs, found 1 spaces
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=846,col=2::Expected 1 space after ELSEIF keyword; newline found
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=847,col=2::Line indented incorrectly; expected at least 1 tabs, found 1 spaces
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=847,col=24::Expected 1 space after closing parenthesis; found newline
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=848,col=1::Line indented incorrectly; expected at least 1 tabs, found 0
+::error file=D%3A\mdeweerd\workspace\dolibarr\htdocs\index.php,line=851,col=5::Closing brace indented incorrectly; expected 1 spaces, found 4

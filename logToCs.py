@@ -132,8 +132,8 @@ def gh_print_notices(notices):
     for notice in notices:
         info: List[str] = []
 
-        if notice.get("file", None) is not None:
-            info.append("file=" + gh_escape_property(notice["file"]))
+        if notice.get("file_name", None) is not None:
+            info.append("file=" + gh_escape_property(notice["file_name"]))
         if notice.get("line", None) is not None:
             info.append(f"line={notice['line']}")
         if notice.get("column", None) is not None:
