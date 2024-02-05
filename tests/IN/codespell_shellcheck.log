@@ -1,0 +1,76 @@
+codespell................................................................Failed
+- hook id: codespell
+- exit code: 65
+
+README.md:18: recommendations ==> recommendations
+shellscript.sh:7: Written ==> Written
+shellscript.sh:183: existence ==> existence
+shellscript.sh:920: Debugging ==> Debugging
+shellscript.sh:1008: higher ==> higher
+shellscript.sh:1550: miscellaneous ==> miscellaneous
+shellscript.sh:1601: miscellaneous ==> miscellaneous
+
+shellcheck...............................................................Failed
+- hook id: shellcheck
+- exit code: 1
+
+In shellscript.sh line 76:
+        echo "No such color modifier '${originalcolor%$basecolor}'." >&2 ;;
+                                                      ^--------^ SC2295 (info): Expansions inside ${..} need to be quoted separately, otherwise they match as patterns.
+
+Did you mean: 
+        echo "No such color modifier '${originalcolor%"$basecolor"}'." >&2 ;;
+
+
+In shellscript.sh line 265:
+      answer2='yes'
+      ^-----^ SC2034 (warning): answer2 appears unused. Verify use (or export if used externally).
+
+
+In shellscript.sh line 393:
+  if [ ! -n $3 ] ; then
+       ^-- SC2236 (style): Use -z instead of ! -n.
+            ^-- SC2070 (error): -n doesn't work with unquoted arguments. Quote or use [[ ]].
+
+
+In shellscript.sh line 407:
+  export $3=$(echo "scale=$scale; $dividend / $divisor" | bc -l)
+            ^-- SC2046 (warning): Quote this to prevent word splitting.
+
+
+In shellscript.sh line 457:
+  local subsecs="${1#$secs}"
+                     ^---^ SC2295 (info): Expansions inside ${..} need to be quoted separately, otherwise they match as patterns.
+
+Did you mean: 
+  local subsecs="${1#"$secs"}"
+
+
+In shellscript.sh line 715:
+    if [ ! -z $key_blocks_unused ] ; then
+         ^-- SC2236 (style): Use -n instead of ! -z.
+
+
+In shellscript.sh line 744:
+  if [ "$major_version" = '4.1' -o "$major_version" = '4.0' ] && [ $key_buffer_size -ge 4294967296 ] && ( echo "x86_64 ppc64 ia64 sparc64 i686" | grep -q $mysql_version_compile_machine ) ; then
+                                ^-- SC2166 (warning): Prefer [ p ] || [ q ] as [ p -o q ] is not well defined.
+
+
+In shellscript.sh line 1081:
+  elif [ $table_cache_hit_rate -le 85 -o  $table_cache_fill -ge 95 ]; then
+                                      ^-- SC2166 (warning): Prefer [ p ] || [ q ] as [ p -o q ] is not well defined.
+
+
+In shellscript.sh line 1259:
+    if [ ! -z "$innodb_indexes" ] ; then
+         ^-- SC2236 (style): Use -n instead of ! -z.
+
+
+In shellscript.sh line 1327:
+    effective_tmp_table_size=$tmp_table_size
+    ^----------------------^ SC2034 (warning): effective_tmp_table_size appears unused. Verify use (or export if used externally).
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2070 -- -n doesn't work with unquoted arg...
+  https://www.shellcheck.net/wiki/SC2034 -- answer2 appears unused. Verify us...
+  https://www.shellcheck.net/wiki/SC2046 -- Quote this to prevent word splitt...

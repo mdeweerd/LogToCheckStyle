@@ -1,0 +1,8 @@
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:59:1: error - Expected 1 space after IF keyword; 0 found
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:845:5: error - Expected 1 space after closing brace; newline found
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:846:2: error - Line indented incorrectly; expected 1 tabs, found 1 spaces
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:846:2: error - Expected 1 space after ELSEIF keyword; newline found
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:847:2: error - Line indented incorrectly; expected at least 1 tabs, found 1 spaces
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:847:24: error - Expected 1 space after closing parenthesis; found newline
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:848:1: error - Line indented incorrectly; expected at least 1 tabs, found 0
+D:\mdeweerd\workspace\dolibarr\htdocs\index.php:851:5: error - Closing brace indented incorrectly; expected 1 spaces, found 4

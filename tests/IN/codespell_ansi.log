@@ -1,0 +1,11 @@
+codespell................................................................[41mFailed[m
+[2m- hook id: codespell[m
+[2m- exit code: 65[m
+
+Used config files:
+    1: .codespellrc
+[33mREADME.md[0m:[33m1150[0m: [31mbuild-in[0m ==> [32mbuilt-in[0m
+[33mREADME.md[0m:[33m1218[0m: [31mopeness[0m ==> [32mopenness[0m
+[33mREADME.md[0m:[33m1242[0m: [31minlcudes[0m ==> [32mincludes[0m
+[33mREADME.md[0m:[33m1304[0m: [31mutilitiy[0m ==> [32mutility[0m
+[33mREADME.md[0m:[33m1326[0m: [31mifself[0m ==> [32mitself[0m

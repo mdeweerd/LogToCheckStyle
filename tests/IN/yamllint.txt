@@ -1,0 +1,1 @@
+::error line=97,col=1::4 [trailing-spaces] trailing spaces

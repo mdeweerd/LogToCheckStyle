@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle><file name="README.md"><error severity="error" line="1150" message="build-in ==&gt; built-in" /><error severity="error" line="1218" message="openess ==&gt; openness" /><error severity="error" line="1242" message="inlcudes ==&gt; includes" /><error severity="error" line="1304" message="utilitiy ==&gt; utility" /><error severity="error" line="1326" message="ifself ==&gt; itself" /></file></checkstyle>

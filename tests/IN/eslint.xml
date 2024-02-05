@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle><file name="/home/runner/work/hassio-trash-card/hassio-trash-card/src/localize.ts"><error severity="error" line="14" column="5" message="Unexpected trailing comma  comma-dangle" /></file></checkstyle>

@@ -53,6 +53,7 @@ import os
 import re
 import sys
 import xml.etree.ElementTree as ET  # nosec
+from typing import List
 
 
 def remove_prefix(string, prefix):
@@ -93,6 +94,55 @@ def convert_text_to_notices(text):
     Convert provided message to CheckStyle format.
     """
     return parse_file(text)
+
+
+def gh_escape_data(value):
+    """
+    Escape data for github action message
+    """
+    res = ""
+    for char in value:
+        res += {"\r": "%0D", "\n": "%0A", "%": "%25"}.get(char, char)
+
+    return res
+
+
+def gh_escape_property(value):
+    """
+    Escape data for property in github action message
+    """
+    res = ""
+    for char in value:
+        res += {
+            "\r": "%0D",
+            "\n": "%0A",
+            ":": "%3A",
+            ",": "%2C",
+            "%": "%25",
+        }.get(char, char)
+
+    return res
+
+
+def gh_print_notices(notices):
+    """
+    Print notices for github actions
+    """
+
+    for notice in notices:
+        info: List[str] = []
+
+        if notice.get("file", None) is not None:
+            info.append("file=" + gh_escape_property(notice["file"]))
+        if notice.get("line", None) is not None:
+            info.append(f"line={notice['line']}")
+        if notice.get("column", None) is not None:
+            info.append(f"col={notice['column']}")
+
+        print(
+            f"::{notice['severity']} "
+            f"{','.join(info)}::{gh_escape_data(notice['message'])}"
+        )
 
 
 # Initial version for Checkrun from:
@@ -251,7 +301,7 @@ PATTERNS = [
     #  path/to/file:845:5: error - Expected 1 space after closing brace
     re.compile(
         rf"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}:{SEVERITY_REGEX}"
-        rf"-?\s{MSG_REGEX}$"
+        rf"(-\s+){MSG_REGEX}$"
     ),
     # ESLint (JavaScript Linter), RoboCop, shellcheck
     #  path/to/file.js:10:2: Some linting issue
@@ -541,7 +591,7 @@ def main():
         help="Annotate when in Github workflow.",
         # Currently disabled,
         #  Future: (os.environ.get("GITHUB_EVENT_PATH", None) is not None),
-        default=False,
+        default=os.environ.get("GITHUB_ACTIONS") == "true",
     )
 
     args = parser.parse_args()
@@ -570,18 +620,21 @@ def main():
         notices, root_path=root_path
     )
 
-    if args.output == "-" and args.output_named:
-        with open(args.output_named, "w", encoding="utf_8") as output_file:
-            output_file.write(checkstyle_xml)
-    elif args.output != "-":
+    if args.output == "-":
+        if args.output_named:
+            with open(args.output_named, "w", encoding="utf_8") as output_file:
+                output_file.write(checkstyle_xml)
+
+    else:
         with open(args.output, "w", encoding="utf_8") as output_file:
             output_file.write(checkstyle_xml)
-    else:
-        print(checkstyle_xml)
 
     if args.github_annotate:
-        checkrun = CheckRun()
-        checkrun.submit(notices)
+        gh_print_notices(notices)
+        # checkrun = CheckRun()
+        # checkrun.submit(notices)
+    else:
+        print(checkstyle_xml)
 
 
 if __name__ == "__main__":

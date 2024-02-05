@@ -1,0 +1,17 @@
+::error line=18::recommendations ==> recommendations
+::error line=7::Written ==> Written
+::error line=183::existence ==> existence
+::error line=920::Debugging ==> Debugging
+::error line=1008::higher ==> higher
+::error line=1550::miscellaneous ==> miscellaneous
+::error line=1601::miscellaneous ==> miscellaneous
+::error line=76::echo "No such color modifier '${originalcolor%25$basecolor}'." >&2 ;;%0A                                                      ^--------^ SC2295 (info): Expansions inside ${..} need to be quoted separately, otherwise they match as patterns.
+::error line=265::answer2='yes'%0A      ^-----^ SC2034 (warning): answer2 appears unused. Verify use (or export if used externally).
+::error line=393::if [ ! -n $3 ] ; then%0A       ^-- SC2236 (style): Use -z instead of ! -n.%0A            ^-- SC2070 (error): -n doesn't work with unquoted arguments. Quote or use [[ ]].
+::error line=407::export $3=$(echo "scale=$scale; $dividend / $divisor" | bc -l)%0A            ^-- SC2046 (warning): Quote this to prevent word splitting.
+::error line=457::local subsecs="${1#$secs}"%0A                     ^---^ SC2295 (info): Expansions inside ${..} need to be quoted separately, otherwise they match as patterns.
+::error line=715::if [ ! -z $key_blocks_unused ] ; then%0A         ^-- SC2236 (style): Use -n instead of ! -z.
+::error line=744::if [ "$major_version" = '4.1' -o "$major_version" = '4.0' ] && [ $key_buffer_size -ge 4294967296 ] && ( echo "x86_64 ppc64 ia64 sparc64 i686" | grep -q $mysql_version_compile_machine ) ; then%0A                                ^-- SC2166 (warning): Prefer [ p ] || [ q ] as [ p -o q ] is not well defined.
+::error line=1081::elif [ $table_cache_hit_rate -le 85 -o  $table_cache_fill -ge 95 ]; then%0A                                      ^-- SC2166 (warning): Prefer [ p ] || [ q ] as [ p -o q ] is not well defined.
+::error line=1259::if [ ! -z "$innodb_indexes" ] ; then%0A         ^-- SC2236 (style): Use -n instead of ! -z.
+::error line=1327::effective_tmp_table_size=$tmp_table_size%0A    ^----------------------^ SC2034 (warning): effective_tmp_table_size appears unused. Verify use (or export if used externally).

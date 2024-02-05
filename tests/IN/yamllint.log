@@ -1,0 +1,8 @@
+yamllint.................................................................[41mFailed[m
+[2m- hook id: yamllint[m
+[2m- exit code: 1[m
+
+##[group].pre-commit-config.yaml
+##[error]97:14 [trailing-spaces] trailing spaces
+##[endgroup]
+
