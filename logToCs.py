@@ -620,7 +620,7 @@ def main():
         notices, root_path=root_path
     )
 
-    if args.output == "-":
+    if args.output in ["-", ""]:
         if args.output_named:
             with open(args.output_named, "w", encoding="utf_8") as output_file:
                 output_file.write(checkstyle_xml)
