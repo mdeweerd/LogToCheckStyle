@@ -124,6 +124,14 @@ def gh_escape_property(value):
     return res
 
 
+def print_filenames(notices):
+    """
+    Print filenames found in notices, ordered and unique
+    """
+
+    print("\n".join(sorted({notice["file_name"] for notice in notices})))
+
+
 def gh_print_notices(notices):
     """
     Print notices for github actions
@@ -589,9 +597,15 @@ def main():
         "--github-annotate",
         action=argparse.BooleanOptionalAction,
         help="Annotate when in Github workflow.",
-        # Currently disabled,
         #  Future: (os.environ.get("GITHUB_EVENT_PATH", None) is not None),
         default=os.environ.get("GITHUB_ACTIONS") == "true",
+    )
+    parser.add_argument(
+        "--name-only",
+        action=argparse.BooleanOptionalAction,
+        help="Report filenames only.",
+        #  Future: (os.environ.get("GITHUB_EVENT_PATH", None) is not None),
+        default=False,
     )
 
     args = parser.parse_args()
@@ -629,7 +643,9 @@ def main():
         with open(args.output, "w", encoding="utf_8") as output_file:
             output_file.write(checkstyle_xml)
 
-    if args.github_annotate:
+    if args.name_only:
+        print_filenames(notices)
+    elif args.github_annotate:
         gh_print_notices(notices)
         # checkrun = CheckRun()
         # checkrun.submit(notices)

@@ -12,6 +12,8 @@ To allow multiline patterns, the python module 'regex' is required.
 ## OPTIONS
 
 ```text
+Convert messages to Checkstyle XML format.
+
 positional arguments:
   input                 Input file. Use '-' for stdin.
   output                Output file. Use '-' for stdout.
@@ -22,8 +24,12 @@ optional arguments:
                         Input filename. Overrides positional input.
   -o OUTPUT_NAMED, --out OUTPUT_NAMED
                         Output filename. Overrides positional output.
-  --root ROOT_PATH      Root directory to remove from file paths.
-                        Defaults to working directory.
+  --root ROOT_PATH      Root directory to remove from file paths. Defaults to
+                        working directory.
+  --github-annotate, --no-github-annotate
+                        Annotate when in Github workflow. (default: False)
+  --name-only, --no-name-only
+                        Report filenames only. (default: False)
 ```
 
 ## Run as a github action (no extra resources)
@@ -67,7 +73,7 @@ commands to stdout resulting in code annotations.
 
 ### Example 2 (old):
 
-Also old, `logToCs.py` now handles annotation by itself.
+Other/old method (because `logToCs.py` now handles annotation by itself).
 
 ```yaml
   - run: |
@@ -78,14 +84,39 @@ Also old, `logToCs.py` now handles annotation by itself.
       .github/logToCs.py pre-commit.log | cs2pr
 ```
 
-## Hints
+## Tips
 
-- `phpcs`: Use `--report=emacs` (when running with `pre-commit`).
+### PHP Codesniffer (AKA php-cs, phpcs)
+
+Use `--report=emacs` (when running with `pre-commit`).
+
+### Edit files that have notices from the CLI.
+
+When running a command on the CLI, it may be helpful to edit only files
+with errors.
+
+For instance, codespell reports:
+
+```bash
+codespell
+./ChangeLog:8244: abadword ==> agoodword
+```
+
+And you want to edit the ChangeLog to make the correction.
+
+With the bash function below it is possible to edit the reported files
+using `viErrors codespell`.
+
+```bash
+viErrors() { "$EDITOR" $("$@" |& logToCs.py --name-only) ; }
+```
 
 ## Author(s):
 
-- https://github.com/mdeweerd
+- [mdeweerd]
 
 ## License
 
 MIT License
+
+[mdeweerd]: https://github.com/mdeweerd
