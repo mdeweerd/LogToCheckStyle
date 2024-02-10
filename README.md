@@ -1,20 +1,25 @@
-# Convert a log to CheckStyle format.
+# Log2CheckStyle
 
-Url: https://github.com/mdeweerd/LogToCheckStyle
+Convert a log to CheckStyle format for easy integration with GitHub Actions
+and continuous integration pipelines.
 
-The log can then be used for generating annotations in a github action.
+## Features
 
-In the script, patterns can be added to "PATTERNS" to match more messages.
+- Converts messages to Checkstyle XML format.
+- Supports specifying input and output files.
+- Allows specifying a root directory to remove from file paths.
+- Provides options for GitHub Action integration (annotations).
+- Handful as a standalone command-line tool (`logToCs.py`).
 
-To allow multiline patterns, the python module 'regex' is required.
+## Usage
 
-The github action proposed in this project simplifies the use in continuous
-integration.
+### Command Line Interface
 
-`logToCs.py` is also useful on the command line interface. For instance it
-can help you to open the files for which errors were reported.
+```bash
+python logToCs.py [OPTIONS] [INPUT [OUTPUT]]
+```
 
-## OPTIONS
+#### OPTIONS
 
 ```text
 Convert messages to Checkstyle XML format.
@@ -37,17 +42,13 @@ optional arguments:
                         Report filenames only. (default: False)
 ```
 
-## Run as a github action (no extra resources)
+### GitHub Action
 
-This runs `logToCs.py` which outputs "github action commands" that result
-in source code annotations.
-
-For an example, see
-[a github action for this project](.github/workflows/pre-commit.yml).
+#### Using No Extra Resources:
 
 ```yaml
   - name: Convert Raw Log to Checkstyle format (launch action)
-    uses: mdeweerd/logToCheckStyle@v2024.2.2
+    uses: mdeweerd/logToCheckStyle@v2024.2.3
     if: ${{ failure() }}
     with:
       in: ${{ env.RAW_LOG }}
@@ -55,16 +56,23 @@ For an example, see
       out: ${{ env.CS_XML }}
 ```
 
-## Run as a github action (local resources)
+The above extracts the notifications from the `RAW_LOG`, writes a file in
+CheckStyle format and applies source code annotations for a Github Pull
+Request.
 
-Assumes that logToCs.py is available as .github/logToCs.py.
+For a full example, see
+[the precommit github workflow for this project](.github/workflows/pre-commit.yml).
 
-### Example 1 (old):
+#### Using local resources
 
-This is the older method of running `logToCs.py`. It is no longer needed to
-use `staabm/annotate-pull-request-from-checkstyle-action`, in fact, when
-`GITHUB_ACTIONS` is `true`, `logToCs.py` will write the appropriate
-commands to stdout resulting in code annotations.
+Convert the output from an action to CheckStyle xml and convert that to
+GitHub Annotations using a different action.
+
+These examples assume that logToCs.py is available as .github/logToCs.py.
+
+##### Example 1:
+
+Use other action to generate the GitHub annotations.
 
 ```yaml
   - run: |
@@ -76,9 +84,9 @@ commands to stdout resulting in code annotations.
       notices-as-warnings: true     # optional
 ```
 
-### Example 2 (old):
+##### Example 2 (old):
 
-Other/old method (because `logToCs.py` now handles annotation by itself).
+Use cs2pr commands to generate the GitHub annotations.
 
 ```yaml
   - run: |
@@ -136,6 +144,12 @@ _viErrors_completion() { COMPREPLY=($(compgen -c -- "${COMP_WORDS[COMP_CWORD]}")
 complete -o default -F _viErrors_completion viErrors
 EOF
 ```
+
+## Extending
+
+In the script, patterns can be added to "PATTERNS" to match more messages.
+
+To allow multiline patterns, the python module 'regex' is required.
 
 ## Author(s):
 
