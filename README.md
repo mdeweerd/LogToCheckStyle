@@ -107,8 +107,29 @@ And you want to edit the ChangeLog to make the correction.
 With the bash function below it is possible to edit the reported files
 using `viErrors codespell`.
 
+`logToCs.py` must be in your path.
+
+## Add to .bashrc:
+
 ```bash
 viErrors() { "$EDITOR" $("$@" |& logToCs.py --name-only) ; }
+_viErrors_completion() { COMPREPLY=($(compgen -c -- "${COMP_WORDS[COMP_CWORD]}")); return 0; }
+complete -o default -F _viErrors_completion viErrors
+```
+
+## or, add in completions directory
+
+Execute the following once and everything code will be loaded when you type
+`viErrors....<TAB>`
+
+```bash
+_cdir=${BASH_COMPLETION_USER_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion}/completions
+mkdir -p "${_cdir}"
+cat > "${_cdir}/viErrors.bash" << 'EOF'
+viErrors() { "$EDITOR" $("$@" |& logToCs.py --name-only) ; }
+_viErrors_completion() { COMPREPLY=($(compgen -c -- "${COMP_WORDS[COMP_CWORD]}")); return 0; }
+complete -o default -F _viErrors_completion viErrors
+EOF
 ```
 
 ## Author(s):
