@@ -4,10 +4,15 @@ Url: https://github.com/mdeweerd/LogToCheckStyle
 
 The log can then be used for generating annotations in a github action.
 
-Note: this script is very young and "quick and dirty". Patterns can be
-added to "PATTERNS" to match more messages.
+In the script, patterns can be added to "PATTERNS" to match more messages.
 
 To allow multiline patterns, the python module 'regex' is required.
+
+The github action proposed in this project simplifies the use in continuous
+integration.
+
+`logToCs.py` is also useful on the command line interface. For instance it
+can help you to open the files for which errors were reported.
 
 ## OPTIONS
 
