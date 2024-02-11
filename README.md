@@ -1,7 +1,7 @@
 # Log2CheckStyle
 
-Convert a log to CheckStyle format for easy integration with GitHub Actions
-and continuous integration pipelines.
+Convert a log to another format for easy integration with GitHub Actions,
+continuous integration pipelines and other purposes.
 
 ## Features
 
@@ -16,7 +16,7 @@ and continuous integration pipelines.
 ### Command Line Interface
 
 ```bash
-python logToCs.py [OPTIONS] [INPUT [OUTPUT]]
+logToCs.py [OPTIONS] [INPUT [OUTPUT]]
 ```
 
 #### OPTIONS
@@ -25,8 +25,8 @@ python logToCs.py [OPTIONS] [INPUT [OUTPUT]]
 Convert messages to Checkstyle XML format.
 
 positional arguments:
-  input                 Input file. Use '-' for stdin.
-  output                Output file. Use '-' for stdout.
+  input                 Input file. Use '-' or omit for stdin.
+  output                Output file. Use '-' or omit for stdout.
 
 optional arguments:
   -h, --help            show this help message and exit
