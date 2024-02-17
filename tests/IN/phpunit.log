@@ -1,0 +1,84 @@
+There were 7 errors:
+1) UtilsTest::testExecuteCLI
+fopen(D:\a\dolibarr\dolibarr\documents/admin/temp/out.tmp): failed to open stream: No such file or directory
+D:\a\dolibarr\dolibarr\htdocs\core\class\utils.class.php:762
+D:\a\dolibarr\dolibarr\test\phpunit\UtilsTest.php:152
+2) FilesLibTest::testDolCopyMoveDelete
+is_file(): open_basedir restriction in effect. File(/adir/that/does/not/exists/file.csv) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
+D:\a\dolibarr\dolibarr\htdocs\core\lib\files.lib.php:488
+D:\a\dolibarr\dolibarr\htdocs\core\lib\files.lib.php:732
+D:\a\dolibarr\dolibarr\test\phpunit\FilesLibTest.php:339
+3) CMailFileTest::testCMailFileHTMLWithImage
+is_dir(): open_basedir restriction in effect. File(/tmp) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
+D:\a\dolibarr\dolibarr\htdocs\core\lib\files.lib.php:458
+D:\a\dolibarr\dolibarr\htdocs\core\class\CMailFile.class.php:1974
+D:\a\dolibarr\dolibarr\htdocs\core\class\CMailFile.class.php:286
+D:\a\dolibarr\dolibarr\test\phpunit\CMailFileTest.php:240
+4) CategorieTest::testCategorieOther
+file_exists(): open_basedir restriction in effect. File(/) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
+D:\a\dolibarr\dolibarr\htdocs\categories\class\categorie.class.php:1801
+D:\a\dolibarr\dolibarr\test\phpunit\CategorieTest.php:295
+5) WebservicesOtherTest::testWSOtherGetVersions
+count(): Parameter must be an array or an object that implements Countable
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesOtherTest.php:193
+6) WebservicesUserTest::testWSUserGetUser
+count(): Parameter must be an array or an object that implements Countable
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesUserTest.php:195
+7) ExportTest::testExportModulesDatasets
+is_dir(): open_basedir restriction in effect. File(D:\a\dolibarr\dolibarr\htdocs/..) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
+D:\a\dolibarr\dolibarr\htdocs\core\lib\functions2.lib.php:100
+D:\a\dolibarr\dolibarr\htdocs\exports\class\export.class.php:119
+D:\a\dolibarr\dolibarr\test\phpunit\ExportTest.php:462
+--
+There were 13 failures:
+1) FilesLibTest::testDolDirMove
+move of directory on existing directory with empty directory
+Failed asserting that false is true.
+D:\a\dolibarr\dolibarr\test\phpunit\FilesLibTest.php:578
+2) FunctionsLibTest::testIsValidMXRecord
+Failed asserting that 1 matches expected 0.
+D:\a\dolibarr\dolibarr\test\phpunit\FunctionsLibTest.php:436
+3) CodingPhpTest::testPHP
+Found string var_dump that is not just after /* or // in includes/nusoap/lib/nusoap.php
+Failed asserting that false is true.
+D:\a\dolibarr\dolibarr\test\phpunit\CodingPhpTest.php:325
+4) RestAPIUserTest::testRestGetUser
+Parsing of json result must not be null
+Failed asserting that null is not null.
+D:\a\dolibarr\dolibarr\test\phpunit\RestAPIUserTest.php:140
+5) RestAPIContactTest::testRestGetContact
+Parsing of json result must not be null
+Failed asserting that null is not null.
+D:\a\dolibarr\dolibarr\test\phpunit\RestAPIContactTest.php:140
+6) RestAPIDocumentTest::testPushDocument
+Parsing of json result must not be null
+Failed asserting that null is not null.
+D:\a\dolibarr\dolibarr\test\phpunit\RestAPIDocumentTest.php:133
+7) WebservicesProductsTest::testWSProductsCreateProductOrService
+Failed asserting that null matches expected 'OK'.
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesProductsTest.php:210
+8) WebservicesInvoicesTest::testWSInvoicesCreateInvoice
+Failed asserting that null matches expected 'OK'.
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesInvoicesTest.php:277
+9) WebservicesOrdersTest::testWSOrderGetOrder
+Failed asserting that null matches expected 'OK'.
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesOrdersTest.php:189
+10) WebservicesThirdpartyTest::testWSThirdpartycreateThirdParty
+Failed asserting that null matches expected 'OK'.
+D:\a\dolibarr\dolibarr\test\phpunit\WebservicesThirdpartyTest.php:233
+11) ScriptsTest::testBank
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-''
++'Failed to find bank account with ref BANKDUMMY.'
+D:\a\dolibarr\dolibarr\test\phpunit\ScriptsTest.php:185
+12) PaypalTest::testPaypalOk
+Failed asserting that 404 matches expected 200.
+D:\a\dolibarr\dolibarr\test\phpunit\PaypalTest.php:156
+13) StripeTest::testStripeOk
+Failed asserting that 404 matches expected 200.
+D:\a\dolibarr\dolibarr\test\phpunit\StripeTest.php:156
+ERRORS!
+Tests: 382, Assertions: 77595, Errors: 9, Failures: 12, Skipped: 15.
