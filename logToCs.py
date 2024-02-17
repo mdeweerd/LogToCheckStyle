@@ -240,16 +240,35 @@ FILEGROUP_REGEX = r"\s*(?P<file_group>\S.*?)\s*?"
 EOL_REGEX = r"[\r\n]"
 LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"
 COLUMN_REGEX = r"\s*(?P<column>\d+?)\s*?"
-SEVERITY_REGEX = r"\s*(?P<severity>error|warning|notice|style|info)\s*?"
+SEVERITY_NOBR_REGEX = r"(?:failure|error|warning|notice|style|info)"
+SEVERITY_REGEX = rf"\s*(?P<severity>{SEVERITY_NOBR_REGEX})\s*?"
+SEVERITYGROUP_REGEX = (
+    rf"\s*(?P<severity_group>{SEVERITY_NOBR_REGEX}(?:\(s\)|s)?)\s*?"
+)
 MSG_REGEX = r"\s*(?P<message>.+?)\s*?"
 MULTILINE_MSG_REGEX = r"\s*(?P<message>(?:.|.[\r\n])+)"
 # cpplint confidence index
 CONFIDENCE_REGEX = r"\s*\[(?P<confidence>\d+)\]\s*?"
+IDENTIFIER_REGEX = r"\w[\w\d]*"
+CLASS_METHOD_REGEX = (
+    rf"\s*(?P<classname>{IDENTIFIER_REGEX})"
+    rf"::(?P<method>{IDENTIFIER_REGEX})\b\s*?"
+)
 
 
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
+    # phpunit
+    re.compile(
+        r"(?P<severity_endgroup>Tests: \d+, Assertions: \d+"
+        r"(?:, Errors: \d+)?(?:, Failures: \d+)(?:, Skipped: \d+))\.$"
+    ),
+    re.compile(rf"^There were \d+ {SEVERITYGROUP_REGEX}s?:$"),
+    re.compile(
+        rf"^\d+\){CLASS_METHOD_REGEX}\n"
+        rf"{MULTILINE_MSG_REGEX}${FILE_REGEX}:{LINE_REGEX}$"
+    ),
     # beautysh
     #  File ftp.sh: error: "esac" before "case" in line 90.
     re.compile(
@@ -351,7 +370,7 @@ def parse_file(text):
 
     Returns the fields in a dict.
     """
-    # pylint: disable=too-many-branches,too-many-statements
+    # pylint: disable=too-many-branches,too-many-statements,too-many-locals
     # regex required to allow same group names
     try:
         import regex  # pylint: disable=import-outside-toplevel
@@ -364,6 +383,7 @@ def parse_file(text):
     # patterns = [PATTERNS[0].pattern]
 
     file_group = None  # The file name for the group (if any)
+    severity_group = None  # The severity for the group (if any)
     full_regex = "(?:(?:" + (")|(?:".join(patterns)) + "))"
     results = []
 
@@ -382,6 +402,8 @@ def parse_file(text):
         confidence = result.pop("confidence", None)
         new_file_group = result.pop("file_group", None)
         file_endgroup = result.pop("file_endgroup", None)
+        new_severity_group = result.pop("severity_group", None)
+        severity_endgroup = result.pop("severity_endgroup", None)
         message = result.get("message", None)
 
         if new_file_group is not None:
@@ -391,6 +413,16 @@ def parse_file(text):
 
         if file_endgroup is not None:
             file_group = None
+            continue
+
+        if new_severity_group is not None:
+            print("SEVERITY")
+            # Start of file_group, just store file
+            severity_group = new_severity_group
+            continue
+
+        if severity_endgroup is not None:
+            severity_group = None
             continue
 
         if file_name is None:
@@ -422,6 +454,14 @@ def parse_file(text):
             else:
                 severity = SEVERITY_WARNING
 
+        if severity is None and severity_group is not None:
+            severity = severity_group
+
+        if message is not None:
+            if EXCLUDE_MSG_PATTERN.search(message):
+                # This message is excluded
+                continue
+
         if severity is None:
             severity = SEVERITY_ERROR
         else:
@@ -429,6 +469,8 @@ def parse_file(text):
 
         if severity in ["info", "style"]:
             severity = SEVERITY_NOTICE
+        elif severity in ["failure"]:
+            severity = SEVERITY_ERROR
 
         result["severity"] = severity
 
@@ -479,7 +521,7 @@ def parse_message(message):
     return None
 
 
-def add_error_entry(  # pylint: disable=too-many-arguments
+def add_error_entry(  # pylint: disable=too-many-arguments,unused-argument
     root,
     severity,
     file_name,
@@ -488,6 +530,7 @@ def add_error_entry(  # pylint: disable=too-many-arguments
     message=None,
     source=None,
     root_path=None,
+    **kwargs,
 ):
     """
     Add error information to the CheckStyle output being created.
