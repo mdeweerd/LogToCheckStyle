@@ -15,9 +15,9 @@ inputs:
     required: false
     default:
   annotate:
-    description: Turn annotation off/on (will default = true in github workflow in future)
+    description: Turn annotation off/on (default = true)
     required: false
-    default: false  # Turning off by default for now
+    default: true
 # outputs:
 #  outpath:  # id of output
 #    description: The output path
