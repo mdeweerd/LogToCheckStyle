@@ -110,8 +110,10 @@ def gh_fix_path(path) -> str:
         )
 
         GITHUB_WORKSPACE = os.environ.get("GITHUB_WORKSPACE", None)
+        print([GITHUB_WORKSPACE, os.environ])
         if GITHUB_WORKSPACE is not None:
             result = re.search(r"([^/\\]+)[/\\]([^/\\]+)$", GITHUB_WORKSPACE)
+            print(["Match", result])
             if result:
                 part1 = re.escape(result.group(1))
                 part2 = re.escape(result.group(2))
