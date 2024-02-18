@@ -1,0 +1,11 @@
+#!/bin/bash -xv
+MYDIR=$(realpath "$(dirname "$0")")
+BINDIR=$(realpath "${MYDIR}/..")
+# Simple interractive test to check impact of github action vars.
+# TODO: Integrate a similar test in the flow
+
+export GITHUB_ACTIONS=true
+export GITHUB_WORKSPACE='D:\a\projectname\projectname'
+export GITHUB_WORKSPACE=/home/runner/work/projectname/projectname
+${BINDIR}/logToCs.py ${MYDIR}/IN/phpunit.log
+

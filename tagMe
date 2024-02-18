@@ -1,0 +1,25 @@
+#!/bin/bash -vx
+TAG=$1
+if [ "$TAG" != "" ] ; then
+    # Determine files in which to update the version
+    FILES=( .github/workflows/pre-commit.yml )
+    if [[ "$TAG" =~ "20"* ]] ; then
+        FILES+=( README.md )
+    fi
+    # Update the version and tag
+    perl -i -p -e 's/(logToCheckStyle\@).*/$1'"$TAG"'/' "${FILES[@]}" \
+       && git add "${FILES[@]}" \
+       && git commit --no-verify --fixup HEAD \
+       && git rebase --no-verify -i --autosquash HEAD~2
+grep "$TAG" README.md \
+     && git tag -f "$TAG" \
+     && git push --atomic origin main "$TAG" -f
+
+    # Update the test case
+    sourceBranch=$(git symbolic-ref HEAD | cut -d "/" -f 3-);
+    targetBranch="test_branch";
+    git checkout $targetBranch \
+    && git merge $sourceBranch \
+    && git push \
+    && git checkout $sourceBranch
+fi
