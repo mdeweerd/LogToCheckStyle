@@ -97,6 +97,35 @@ def print_filenames(notices):
     print("\n".join(sorted({notice["file_name"] for notice in notices})))
 
 
+def gh_fix_path(path) -> str:
+    """
+    Fix the path with may be absolute in a github context.
+
+    Remove the project prefix, convert to unix-like relative path.
+    """
+    if not hasattr(gh_fix_path, "prefix_re"):
+        # Default
+        gh_fix_path.prefix_regex = re.compile(r"^(.*)")
+
+        GITHUB_WORKSPACE = os.environ.get("GITHUB_WORKSPACE", None)
+        if GITHUB_WORKSPACE is not None:
+            result = re.search(r"([^/\\]+)[/\\]([^/\\]+)$", GITHUB_WORKSPACE)
+            if result:
+                part1 = re.escape(result.group(1))
+                part2 = re.escape(result.group(2))
+                gh_fix_path.prefix_regex = re.compile(
+                    rf"^(?:.*?/){part1}/{part2}/(.*)$"
+                )
+            else:
+                gh_fix_path.prefix_regex = re.compile(r"^/?(.*)")
+
+    unixlike_path = path.translate(str.maketrans({ord("\\"): ord("/")}))
+    matches = gh_fix_path.prefix_regex.match(unixlike_path)
+    if matches:
+        return matches.group(1)
+    return unixlike_path
+
+
 def gh_print_notices(notices):
     """
     Print notices for github actions
@@ -106,7 +135,9 @@ def gh_print_notices(notices):
         info: List[str] = []
 
         if notice.get("file_name", None) is not None:
-            info.append("file=" + gh_escape_property(notice["file_name"]))
+            info.append(
+                "file=" + gh_escape_property(gh_fix_path(notice["file_name"]))
+            )
         if notice.get("line", None) is not None:
             info.append(f"line={notice['line']}")
         if notice.get("column", None) is not None:

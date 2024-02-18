@@ -1,20 +1,20 @@
-::error file=D%3A\a\dolibarr\dolibarr\htdocs\core\class\utils.class.php,line=762::fopen(D:\a\dolibarr\dolibarr\documents/admin/temp/out.tmp): failed to open stream: No such file or directory
-::error file=D%3A\a\dolibarr\dolibarr\htdocs\core\lib\files.lib.php,line=488::is_file(): open_basedir restriction in effect. File(/adir/that/does/not/exists/file.csv) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
-::error file=D%3A\a\dolibarr\dolibarr\htdocs\core\lib\files.lib.php,line=458::is_dir(): open_basedir restriction in effect. File(/tmp) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
-::error file=D%3A\a\dolibarr\dolibarr\htdocs\categories\class\categorie.class.php,line=1801::file_exists(): open_basedir restriction in effect. File(/) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesOtherTest.php,line=193::count(): Parameter must be an array or an object that implements Countable
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesUserTest.php,line=195::count(): Parameter must be an array or an object that implements Countable
-::error file=D%3A\a\dolibarr\dolibarr\htdocs\core\lib\functions2.lib.php,line=100::is_dir(): open_basedir restriction in effect. File(D:\a\dolibarr\dolibarr\htdocs/..) is not within the allowed path(s): (D:\a\dolibarr\dolibarr\htdocs;D:\a\dolibarr\dolibarr\documents;D:\a\dolibarr\dolibarr\test;D:\a\dolibarr\dolibarr\dev\initdemo;c:\tools\php)
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\FilesLibTest.php,line=578::move of directory on existing directory with empty directory%0AFailed asserting that false is true.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\FunctionsLibTest.php,line=436::Failed asserting that 1 matches expected 0.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\CodingPhpTest.php,line=325::Found string var_dump that is not just after /* or // in includes/nusoap/lib/nusoap.php%0AFailed asserting that false is true.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\RestAPIUserTest.php,line=140::Parsing of json result must not be null%0AFailed asserting that null is not null.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\RestAPIContactTest.php,line=140::Parsing of json result must not be null%0AFailed asserting that null is not null.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\RestAPIDocumentTest.php,line=133::Parsing of json result must not be null%0AFailed asserting that null is not null.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesProductsTest.php,line=210::Failed asserting that null matches expected 'OK'.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesInvoicesTest.php,line=277::Failed asserting that null matches expected 'OK'.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesOrdersTest.php,line=189::Failed asserting that null matches expected 'OK'.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\WebservicesThirdpartyTest.php,line=233::Failed asserting that null matches expected 'OK'.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\ScriptsTest.php,line=185::Failed asserting that two strings are equal.%0A--- Expected%0A+++ Actual%0A@@ @@%0A-''%0A+'Failed to find bank account with ref BANKDUMMY.'
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\PaypalTest.php,line=156::Failed asserting that 404 matches expected 200.
-::error file=D%3A\a\dolibarr\dolibarr\test\phpunit\StripeTest.php,line=156::Failed asserting that 404 matches expected 200.
+::error file=D%3A/a/projectname/projectname/htdocs/core/class/utils.class.php,line=762::fopen(D:\a\projectname\projectname\documents/admin/temp/out.tmp): failed to open stream: No such file or directory
+::error file=D%3A/a/projectname/projectname/htdocs/core/lib/files.lib.php,line=488::is_file(): open_basedir restriction in effect. File(/adir/that/does/not/exists/file.csv) is not within the allowed path(s): (D:\a\projectname\projectname\htdocs;D:\a\projectname\projectname\documents;D:\a\projectname\projectname\test;D:\a\projectname\projectname\dev\initdemo;c:\tools\php)
+::error file=D%3A/a/projectname/projectname/htdocs/core/lib/files.lib.php,line=458::is_dir(): open_basedir restriction in effect. File(/tmp) is not within the allowed path(s): (D:\a\projectname\projectname\htdocs;D:\a\projectname\projectname\documents;D:\a\projectname\projectname\test;D:\a\projectname\projectname\dev\initdemo;c:\tools\php)
+::error file=D%3A/a/projectname/projectname/htdocs/categories/class/categorie.class.php,line=1801::file_exists(): open_basedir restriction in effect. File(/) is not within the allowed path(s): (D:\a\projectname\projectname\htdocs;D:\a\projectname\projectname\documents;D:\a\projectname\projectname\test;D:\a\projectname\projectname\dev\initdemo;c:\tools\php)
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesOtherTest.php,line=193::count(): Parameter must be an array or an object that implements Countable
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesUserTest.php,line=195::count(): Parameter must be an array or an object that implements Countable
+::error file=D%3A/a/projectname/projectname/htdocs/core/lib/functions2.lib.php,line=100::is_dir(): open_basedir restriction in effect. File(D:\a\projectname\projectname\htdocs/..) is not within the allowed path(s): (D:\a\projectname\projectname\htdocs;D:\a\projectname\projectname\documents;D:\a\projectname\projectname\test;D:\a\projectname\projectname\dev\initdemo;c:\tools\php)
+::error file=D%3A/a/projectname/projectname/test/phpunit/FilesLibTest.php,line=578::move of directory on existing directory with empty directory%0AFailed asserting that false is true.
+::error file=D%3A/a/projectname/projectname/test/phpunit/FunctionsLibTest.php,line=436::Failed asserting that 1 matches expected 0.
+::error file=D%3A/a/projectname/projectname/test/phpunit/CodingPhpTest.php,line=325::Found string var_dump that is not just after /* or // in includes/nusoap/lib/nusoap.php%0AFailed asserting that false is true.
+::error file=D%3A/a/projectname/projectname/test/phpunit/RestAPIUserTest.php,line=140::Parsing of json result must not be null%0AFailed asserting that null is not null.
+::error file=D%3A/a/projectname/projectname/test/phpunit/RestAPIContactTest.php,line=140::Parsing of json result must not be null%0AFailed asserting that null is not null.
+::error file=D%3A/a/projectname/projectname/test/phpunit/RestAPIDocumentTest.php,line=133::Parsing of json result must not be null%0AFailed asserting that null is not null.
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesProductsTest.php,line=210::Failed asserting that null matches expected 'OK'.
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesInvoicesTest.php,line=277::Failed asserting that null matches expected 'OK'.
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesOrdersTest.php,line=189::Failed asserting that null matches expected 'OK'.
+::error file=D%3A/a/projectname/projectname/test/phpunit/WebservicesThirdpartyTest.php,line=233::Failed asserting that null matches expected 'OK'.
+::error file=D%3A/a/projectname/projectname/test/phpunit/ScriptsTest.php,line=185::Failed asserting that two strings are equal.%0A--- Expected%0A+++ Actual%0A@@ @@%0A-''%0A+'Failed to find bank account with ref BANKDUMMY.'
+::error file=D%3A/a/projectname/projectname/test/phpunit/PaypalTest.php,line=156::Failed asserting that 404 matches expected 200.
+::error file=D%3A/a/projectname/projectname/test/phpunit/StripeTest.php,line=156::Failed asserting that 404 matches expected 200.
