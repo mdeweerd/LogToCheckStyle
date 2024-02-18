@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/bin/sh -l
 ANNOTATE=""
 [ "$3" = "true" ] && ANNOTATE="--github-annotate"
 [ "$3" = "false" ] && ANNOTATE="--no-github-annotate"

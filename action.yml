@@ -22,6 +22,13 @@ inputs:
 #  outpath:  # id of output
 #    description: The output path
 runs:
-  using: docker
-  image: Dockerfile
-  args: ['${{ inputs.in }}', '${{ inputs.out }}', '${{ inputs.root }}', '${{ inputs.annotate }}' ]
+  using: composite
+  steps:
+    - name: Analyse logfile
+      shell: runner.os == 'Windows' && 'bash' || 'sh'
+      if: runner.os == 'Linux' || runner.os = 'macOS'
+      run: |
+        echo ::group::Analyze log file
+        python -m pip install regex
+        ./entrypoint.sh '${{ inputs.in }}' '${{ inputs.out }}' '${{ inputs.root }}', '${{ inputs.annotate }}'
+        echo ::endgroup::

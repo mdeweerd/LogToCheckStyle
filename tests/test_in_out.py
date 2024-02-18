@@ -9,6 +9,11 @@ from glob import glob
 
 import pytest
 
+# We do not want those for the test (unless we set them ourselves)
+for k, _v in os.environ.items():
+    if k.startswith("GITHUB_"):
+        del os.environ[k]
+
 
 # Function to get the list of test files in the 'IN' directory
 def get_test_files(in_directory="IN"):
