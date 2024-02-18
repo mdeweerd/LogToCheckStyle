@@ -36,7 +36,7 @@ jobs:
         run: |
           python ${LOG_TO_CS} ${RAW_LOG} ${CS_XML}
       - name: Convert Raw Log to Checkstyle format (launch action)
-        uses: mdeweerd/logToCheckStyle@test4
+        uses: mdeweerd/logToCheckStyle@test5
         if: ${{ failure() }}
         with:
           in: ${{ env.RAW_LOG }}
