@@ -19,7 +19,7 @@ grep "$TAG" README.md \
     sourceBranch=$(git symbolic-ref HEAD | cut -d "/" -f 3-);
     targetBranch="test_branch";
     git checkout $targetBranch \
-    && git merge $sourceBranch \
+    && git rebase --onto $sourceBranch \
     && git push \
     && git checkout $sourceBranch
 fi
