@@ -26,7 +26,6 @@ runs:
   steps:
     - name: Analyse logfile
       shell: runner.os == 'Windows' && 'bash' || 'sh'
-      if: runner.os == 'Linux' || runner.os = 'macOS'
       run: |
         echo ::group::Analyze log file
         python -m pip install regex
