@@ -105,7 +105,9 @@ def gh_fix_path(path) -> str:
     """
     if not hasattr(gh_fix_path, "prefix_regex"):
         # Default
-        gh_fix_path.prefix_regex = re.compile(r"^(.*)")
+        gh_fix_path.prefix_regex = (  # type: ignore[attr-defined]
+            re.compile(r"^(.*)")
+        )
 
         GITHUB_WORKSPACE = os.environ.get("GITHUB_WORKSPACE", None)
         if GITHUB_WORKSPACE is not None:
@@ -113,14 +115,18 @@ def gh_fix_path(path) -> str:
             if result:
                 part1 = re.escape(result.group(1))
                 part2 = re.escape(result.group(2))
-                gh_fix_path.prefix_regex = re.compile(
-                    rf"^(?:.*?/){part1}/{part2}/(.*)$"
+                gh_fix_path.prefix_regex = (  # type: ignore[attr-defined]
+                    re.compile(rf"^(?:.*?/){part1}/{part2}/(.*)$")
                 )
             else:
-                gh_fix_path.prefix_regex = re.compile(r"^/?(.*)")
+                gh_fix_path.prefix_regex = (  # type: ignore[attr-defined]
+                    re.compile(r"^/?(.*)")
+                )
 
     unixlike_path = path.translate(str.maketrans({ord("\\"): ord("/")}))
-    matches = gh_fix_path.prefix_regex.match(unixlike_path)
+    matches = gh_fix_path.prefix_regex.match(  # type: ignore[attr-defined]
+        unixlike_path
+    )
     if matches:
         return matches.group(1)
     return unixlike_path
