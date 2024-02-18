@@ -103,7 +103,7 @@ def gh_fix_path(path) -> str:
 
     Remove the project prefix, convert to unix-like relative path.
     """
-    if not hasattr(gh_fix_path, "prefix_re"):
+    if not hasattr(gh_fix_path, "prefix_regex"):
         # Default
         gh_fix_path.prefix_regex = re.compile(r"^(.*)")
 
