@@ -29,5 +29,5 @@ runs:
       run: |
         echo ::group::Analyze log file
         python -m pip install regex
-        ./entrypoint.sh '${{ inputs.in }}' '${{ inputs.out }}' '${{ inputs.root }}', '${{ inputs.annotate }}'
+        '${{ github.action_path }}/entrypoint.sh' '${{ inputs.in }}' '${{ inputs.out }}' '${{ inputs.root }}', '${{ inputs.annotate }}'
         echo ::endgroup::
