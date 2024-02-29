@@ -36,7 +36,7 @@ def convert_notices_to_checkstyle(notices, root_path=None):
     """
     Convert annotation list to CheckStyle xml string
     """
-    root = ET.Element("checkstyle")
+    root = ET.Element("checkstyle", version="6.5")
     for fields in notices:
         add_error_entry(root, **fields, root_path=root_path)
     return ET.tostring(root, encoding="utf_8").decode("utf_8")

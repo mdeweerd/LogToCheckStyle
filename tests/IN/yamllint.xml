@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='utf_8'?>
-<checkstyle><file name=".pre-commit-config.yaml"><error severity="error" line="97" column="1" message="4 [trailing-spaces] trailing spaces" /></file></checkstyle>
+<checkstyle version="6.5"><file name=".pre-commit-config.yaml"><error severity="error" line="97" column="1" message="4 [trailing-spaces] trailing spaces" /></file></checkstyle>
