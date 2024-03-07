@@ -65,6 +65,8 @@ def gh_escape_data(value):
     """
     Escape data for github action message
     """
+    if value is None:
+        return None
     res = ""
     for char in value:
         res += {"\r": "%0D", "\n": "%0A", "%": "%25"}.get(char, char)
@@ -273,7 +275,7 @@ class CheckRun:
 
 
 ANY_REGEX = r".*?"
-FILE_REGEX = r"\s*(?P<file_name>\S.*?)\s*?"
+FILE_REGEX = r"\s*(?P<file_name>(?:[a-zA-Z]:)?[^: #\[\]]*?)\s*?"
 FILEGROUP_REGEX = r"\s*(?P<file_group>\S.*?)\s*?"
 EOL_REGEX = r"[\r\n]"
 LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"
@@ -370,6 +372,9 @@ PATTERNS = [
         f"^{FILE_REGEX}{EOL_REGEX}"
         rf"\s+{LINE_REGEX}:{COLUMN_REGEX}\s+{SEVERITY_REGEX}\s+{MSG_REGEX}$"
     ),
+    # Phan:
+    # path\to\file.php:379 PhanKey Message...
+    re.compile(f"^{FILE_REGEX}:{LINE_REGEX} {MSG_REGEX}$"),
 ]
 
 # Exceptionnaly some regexes match messages that are not error.
@@ -682,23 +687,25 @@ def main():
         notices, root_path=root_path
     )
 
-    if args.output in ["-", ""]:
-        if args.output_named:
-            with open(args.output_named, "w", encoding="utf_8") as output_file:
-                output_file.write(checkstyle_xml)
-
-    else:
-        with open(args.output, "w", encoding="utf_8") as output_file:
-            output_file.write(checkstyle_xml)
-
     if args.name_only:
         print_filenames(notices)
-    elif args.github_annotate:
-        gh_print_notices(notices)
-        # checkrun = CheckRun()
-        # checkrun.submit(notices)
     else:
-        print(checkstyle_xml)
+        if args.output in ["-", ""]:
+            if args.output_named:
+                with open(
+                    args.output_named, "w", encoding="utf_8"
+                ) as output_file:
+                    output_file.write(checkstyle_xml)
+        else:
+            with open(args.output, "w", encoding="utf_8") as output_file:
+                output_file.write(checkstyle_xml)
+
+        if args.github_annotate:
+            gh_print_notices(notices)
+            # checkrun = CheckRun()
+            # checkrun.submit(notices)
+        else:
+            print(checkstyle_xml)
 
 
 if __name__ == "__main__":
