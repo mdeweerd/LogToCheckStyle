@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="D:\project\core\triggers\interface_20_all_Logevents.class.php"><error severity="error" line="91" message="Declaration of InterfaceLogevents::runTrigger(string $action, $object, User $user, Translate $langs, Conf $conf) must be compatible with DolibarrTriggers::runTrigger($action, $object, User $user, Translate $langs, Conf $conf)" /></file></checkstyle>

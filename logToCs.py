@@ -375,6 +375,14 @@ PATTERNS = [
     # Phan:
     # path\to\file.php:379 PhanKey Message...
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX} {MSG_REGEX}$"),
+    # PHP Fatal error (in phpunit) (single line):
+    #   PHP Fatal error:  Message in path/to/file on line 91
+    # Or:
+    #   Fatal error:  Message in path/to/file on line 91
+    re.compile(
+        rf"^(?:PHP )Fatal error:{MSG_REGEX}"
+        rf" in {FILE_REGEX} on line {LINE_REGEX}$"
+    ),
 ]
 
 # Exceptionnaly some regexes match messages that are not error.

@@ -1,0 +1,4 @@
+PHP Fatal error:  Declaration of InterfaceLogevents::runTrigger(string $action, $object, User $user, Translate $langs, Conf $conf) must be compatible with DolibarrTriggers::runTrigger($action, $object, User $user, Translate $langs, Conf $conf) in D:\project\core\triggers\interface_20_all_Logevents.class.php on line 91
+UserTest::testUserCreate USER_PASSWORD_GENERATED=Standard
+
+Fatal error: Declaration of InterfaceLogevents::runTrigger(string $action, $object, User $user, Translate $langs, Conf $conf) must be compatible with DolibarrTriggers::runTrigger($action, $object, User $user, Translate $langs, Conf $conf) in D:\project\core\triggers\interface_20_all_Logevents.class.php on line 91

@@ -1,0 +1,1 @@
+::error file=D%3A/project/core/triggers/interface_20_all_Logevents.class.php,line=91::Declaration of InterfaceLogevents::runTrigger(string $action, $object, User $user, Translate $langs, Conf $conf) must be compatible with DolibarrTriggers::runTrigger($action, $object, User $user, Translate $langs, Conf $conf)
