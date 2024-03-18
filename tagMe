@@ -7,7 +7,7 @@ if [ "$TAG" != "" ] ; then
         FILES+=( README.md )
     fi
     # Update the version and tag
-    perl -i -p -e 's/(logToCheckStyle\@).*/$1'"$TAG"'/' "${FILES[@]}" \
+    perl -i -p -e 's/(logToCheckStyle\@).*/'"$TAG"'/' "${FILES[@]}" \
        && git add "${FILES[@]}" \
        && git commit --no-verify --fixup HEAD \
        && git rebase --no-verify -i --autosquash HEAD~2
@@ -19,7 +19,9 @@ grep "$TAG" README.md \
     sourceBranch=$(git symbolic-ref HEAD | cut -d "/" -f 3-);
     targetBranch="test_branch";
     git checkout $targetBranch \
+    && git pull \
+    && perl -i -p -e 's/(logToCheckStyle\@).*/'"$TAG"'/' "${FILES[@]}" \
     && git rebase --onto $sourceBranch \
-    && git push \
+    && git push -f \
     && git checkout $sourceBranch
 fi
