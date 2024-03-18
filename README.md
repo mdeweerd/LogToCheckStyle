@@ -48,7 +48,7 @@ optional arguments:
 
 ```yaml
   - name: Convert Raw Log to Checkstyle format (launch action)
-    uses: mdeweerd/logToCheckStyle@v2024.3.2
+    uses: mdeweerd/logToCheckStyle@2024.3.2
     if: ${{ failure() }}
     with:
       in: ${{ env.RAW_LOG }}

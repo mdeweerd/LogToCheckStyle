@@ -21,6 +21,7 @@ grep "$TAG" README.md \
     git checkout $targetBranch \
     && git pull \
     && perl -i -p -e 's/(?<=logToCheckStyle\@).*/'"$TAG"'/' "${FILES[@]}" \
+    && ( git commit -a -m "Update version" || 1 ) \
     && git rebase --onto $sourceBranch \
     && git push -f \
     && git checkout $sourceBranch
