@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="D:\path\htdocs\install\upgrade2.php"><error severity="warning" line="4135" message="file_exists(): open_basedir restriction in effect. File(../includes/nusoap/lib/class.*) is not within the allowed path(s): (D:\path\htdocs;D:\path\documents;D:\path\test;D:\path\dev;c:\tools\php)" /></file></checkstyle>

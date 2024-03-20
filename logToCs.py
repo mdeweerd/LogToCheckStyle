@@ -380,7 +380,7 @@ PATTERNS = [
     # Or:
     #   Fatal error:  Message in path/to/file on line 91
     re.compile(
-        rf"^(?:PHP )Fatal error:{MSG_REGEX}"
+        rf"^(?:PHP )(Fatal )?{SEVERITY_REGEX}:{MSG_REGEX}"
         rf" in {FILE_REGEX} on line {LINE_REGEX}$"
     ),
 ]
