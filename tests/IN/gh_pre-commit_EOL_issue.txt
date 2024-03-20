@@ -1,0 +1,1 @@
+::error file=/home/runner/work/project/dict.php,line=2133,col=1::Whitespace found at end of line

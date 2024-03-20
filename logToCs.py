@@ -275,7 +275,7 @@ class CheckRun:
 
 
 ANY_REGEX = r".*?"
-FILE_REGEX = r"\s*(?P<file_name>(?:[a-zA-Z]:)?[^: #\[\]]*?)\s*?"
+FILE_REGEX = r"\s*(?P<file_name>(?:[a-zA-Z]:)?[^: #\[\]\r\n]*?)\s*?"
 FILEGROUP_REGEX = r"\s*(?P<file_group>\S.*?)\s*?"
 EOL_REGEX = r"[\r\n]"
 LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"

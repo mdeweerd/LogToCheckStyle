@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="/home/runner/work/project/dict.php"><error severity="error" line="2133" column="1" message="Whitespace found at end of line" /></file></checkstyle>
