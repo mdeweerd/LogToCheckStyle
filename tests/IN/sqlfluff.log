@@ -1,0 +1,12 @@
+== [htdocs/install/mysql/tables/llx_societe_prices.sql] FAIL
+L:  17 | P:   1 | LT02 | Expected indent of 1 tabs. [layout.indent]
+L:  17 | P:   3 | RF04 | Keywords should not be used as identifiers.
+                       | [references.keywords]
+L:  17 | P:   8 | LT01 | Expected only single space before data type identifier.
+                       | Found '              '. [layout.spacing]
+
+== [htdocs/install/mysql/tables/llx_societe_prices.sql] WARN
+L:  17 | P:  30 | CP01 | Keywords must be consistently lower case.
+                       | [capitalisation.keywords]
+L:  18 | P:   1 | LT02 | Expected indent of 1 tabs. [layout.indent]
+All Finished!

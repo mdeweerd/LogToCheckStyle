@@ -1,5 +1,5 @@
 [codespell]
 SKIP=*tests/IN/*,*tests/OUT/*,.*,*/.*
 builtin=clear,rare,informal,usage,code,names,en-GB_to_en-US
-ignore-words-list=master
+ignore-words-list=master,ure
 quiet-level=2

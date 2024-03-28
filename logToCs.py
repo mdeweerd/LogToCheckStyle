@@ -280,11 +280,12 @@ FILEGROUP_REGEX = r"\s*(?P<file_group>\S.*?)\s*?"
 EOL_REGEX = r"[\r\n]"
 LINE_REGEX = r"\s*(?P<line>\d+?)\s*?"
 COLUMN_REGEX = r"\s*(?P<column>\d+?)\s*?"
-SEVERITY_NOBR_REGEX = r"(?:failure|error|warning|notice|style|info)"
+SEVERITY_NOBR_REGEX = r"(?:fail(?:ure)?|error|warn(?:ing)?|notice|style|info)"
 SEVERITY_REGEX = rf"\s*(?P<severity>{SEVERITY_NOBR_REGEX})\s*?"
 SEVERITYGROUP_REGEX = (
     rf"\s*(?P<severity_group>{SEVERITY_NOBR_REGEX})(?:\(s\)|s)?\s*?"
 )
+# SEVERITYGROUP_REGEX = rf"\s*(?P<severity_group>{SEVERITY_NOBR_REGEX})\s*?"
 MSG_REGEX = r"\s*(?P<message>.+?)\s*?"
 MULTILINE_MSG_REGEX = r"\s*(?P<message>(?:.|.[\r\n])+)"
 # cpplint confidence index
@@ -299,6 +300,12 @@ CLASS_METHOD_REGEX = (
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
 PATTERNS = [
+    # sqlfluff (TODO: combine multiline messages)
+    re.compile(
+        rf"^== \[{FILEGROUP_REGEX}\]\s+{SEVERITYGROUP_REGEX}$"
+    ),  # Start file group
+    re.compile(rf"^L:{LINE_REGEX}\|\s+P:{COLUMN_REGEX}\|{MSG_REGEX}$"),
+    re.compile(r"^(?P<file_endgroup>(?P<severity_endgroup>All Finished!))"),
     # phpunit
     re.compile(
         r"(?P<severity_endgroup>Tests: \d+, Assertions: \d+"
@@ -457,22 +464,27 @@ def parse_file(text):
         severity_endgroup = result.pop("severity_endgroup", None)
         message = result.get("message", None)
 
+        has_group_instructions = False
+
         if new_file_group is not None:
             # Start of file_group, just store file
             file_group = new_file_group
-            continue
+            has_group_instructions = True
 
         if file_endgroup is not None:
             file_group = None
-            continue
+            has_group_instructions = True
 
         if new_severity_group is not None:
             # Start of file_group, just store file
-            severity_group = new_severity_group
-            continue
+            severity_group = new_severity_group.lower()
+            has_group_instructions = True
 
         if severity_endgroup is not None:
             severity_group = None
+            has_group_instructions = True
+
+        if has_group_instructions:
             continue
 
         if file_name is None:
@@ -519,7 +531,9 @@ def parse_file(text):
 
         if severity in ["info", "style"]:
             severity = SEVERITY_NOTICE
-        elif severity in ["failure"]:
+        elif severity in ["warning", "warn"]:
+            severity = SEVERITY_WARNING
+        elif severity in ["failure", "fail"]:
             severity = SEVERITY_ERROR
 
         result["severity"] = severity

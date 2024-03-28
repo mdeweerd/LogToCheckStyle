@@ -1,0 +1,5 @@
+::error file=htdocs/install/mysql/tables/llx_societe_prices.sql,line=17,col=1::LT02 | Expected indent of 1 tabs. [layout.indent]
+::error file=htdocs/install/mysql/tables/llx_societe_prices.sql,line=17,col=3::RF04 | Keywords should not be used as identifiers.
+::error file=htdocs/install/mysql/tables/llx_societe_prices.sql,line=17,col=8::LT01 | Expected only single space before data type identifier.
+::warning file=htdocs/install/mysql/tables/llx_societe_prices.sql,line=17,col=30::CP01 | Keywords must be consistently lower case.
+::warning file=htdocs/install/mysql/tables/llx_societe_prices.sql,line=18,col=1::LT02 | Expected indent of 1 tabs. [layout.indent]
