@@ -38,6 +38,8 @@ optional arguments:
                         working directory.
   --github-annotate, --no-github-annotate
                         Annotate when in Github workflow. (default: False)
+  --gitlab, --no-gitlab
+                        Generate gitlab report (artefact) when in Gitlab workflow. (default: False)
   --name-only, --no-name-only
                         Report filenames only. (default: False)
 ```

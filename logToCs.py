@@ -158,6 +158,44 @@ def gh_print_notices(notices):
         )
 
 
+def gl_notices(notices):
+    """
+    Export notices for gitlab.  Needs to be written as json to file
+
+    See: https://docs.gitlab.com/ee/ci/testing/code_quality.html
+         #implement-a-custom-tool
+    """
+
+    result = []
+    for notice in notices:
+        gl_notice = {"description": notice["message"]}
+
+        # gl_notice['check_name'] = {"description":notice['message']
+
+        if notice.get("file_name", None) is not None:
+            location = {"path": notice["file_name"]}
+            # location.path The relative path to the file
+            # ...           containing the code quality violation.
+            if notice.get("line", None) is not None:
+                location["lines"] = {"begin": notice["line"]}
+
+            # if notice.get("column", None) is not None:
+            #    Not usable
+
+            gl_notice["location"] = location
+
+        # A severity string (can be info, minor, major, critical, or blocker).
+        gl_notice["severity"] = notice["severity"]
+
+        # fingerprint	A unique fingerprint to identify the code quality
+        # ...           violation. For example, an MD5 hash.
+        # gl_notice['fingerprint'] =
+
+        result.append(gl_notice)
+
+    return result
+
+
 # Initial version for Checkrun from:
 # https://github.com/tayfun/flake8-your-pr/blob/50a175cde4dd26a656734c5b64ba1e5bb27151cb/src/main.py#L7C1-L123C36
 # MIT Licence
@@ -630,7 +668,7 @@ def find_or_create_file_element(root, file_name: str, root_path=None):
     return file_element
 
 
-def main():
+def main():  # pylint: disable=too-many-branches
     """
     Parse the script arguments and get the conversion done.
     """
@@ -676,6 +714,12 @@ def main():
         default=os.environ.get("GITHUB_ACTIONS") == "true",
     )
     parser.add_argument(
+        "--gitlab",
+        action=argparse.BooleanOptionalAction,
+        help="Provide Gitlab Report Artifact (JSON)",
+        default=os.environ.get("GITLAB_CI") == "true",
+    )
+    parser.add_argument(
         "--name-only",
         action=argparse.BooleanOptionalAction,
         help="Report filenames only.",
@@ -705,9 +749,14 @@ def main():
     except ImportError:
         notices = convert_lines_to_notices(re.split(r"[\r\n]+", text))
 
-    checkstyle_xml = convert_notices_to_checkstyle(
-        notices, root_path=root_path
-    )
+    if args.gitlab:
+        default_output = json.dumps(
+            gl_notices(notices)  # , root_path=root_path
+        )
+    else:
+        default_output = convert_notices_to_checkstyle(
+            notices, root_path=root_path
+        )
 
     if args.name_only:
         print_filenames(notices)
@@ -717,17 +766,17 @@ def main():
                 with open(
                     args.output_named, "w", encoding="utf_8"
                 ) as output_file:
-                    output_file.write(checkstyle_xml)
+                    output_file.write(default_output)
         else:
             with open(args.output, "w", encoding="utf_8") as output_file:
-                output_file.write(checkstyle_xml)
+                output_file.write(default_output)
 
         if args.github_annotate:
             gh_print_notices(notices)
             # checkrun = CheckRun()
             # checkrun.submit(notices)
         else:
-            print(checkstyle_xml)
+            print(default_output)
 
 
 if __name__ == "__main__":
