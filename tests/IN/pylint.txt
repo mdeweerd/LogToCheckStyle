@@ -1,0 +1,1 @@
+::error file=htdocs/includes/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDO.php,line=146::Declaration of DebugBar\DataCollector\PDO\TraceablePDO::query($statement) must be compatible with PDO::query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatement|false

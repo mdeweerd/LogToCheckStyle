@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="htdocs/includes/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDO.php"><error severity="error" line="146" message="Declaration of DebugBar\DataCollector\PDO\TraceablePDO::query($statement) must be compatible with PDO::query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatement|false" /></file></checkstyle>
