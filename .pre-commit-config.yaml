@@ -56,6 +56,8 @@ repos:
     rev: v6.2.1
     hooks:
       - id: beautysh
+        additional_dependencies:
+          - setuptools  # workaround for beautysh
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
     hooks:
