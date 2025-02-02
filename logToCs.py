@@ -333,7 +333,9 @@ CLASS_METHOD_REGEX = (
     rf"\s*(?P<classname>{IDENTIFIER_REGEX})"
     rf"::(?P<method>{IDENTIFIER_REGEX})\b\s*?"
 )
-
+PHPUNIT_DATASET_REGEX = (
+    r"(?P<dataset> with data set (?:#\d+|\"[^\"]+\") \([^\n]*\))"
+)
 
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
@@ -351,7 +353,7 @@ PATTERNS = [
     ),
     re.compile(rf"^There were \d+ {SEVERITYGROUP_REGEX}s?:$"),
     re.compile(
-        rf"^\d+\){CLASS_METHOD_REGEX}\n"
+        rf"^\d+\){CLASS_METHOD_REGEX}{PHPUNIT_DATASET_REGEX}?\n"
         rf"{MULTILINE_MSG_REGEX}${FILE_REGEX}:{LINE_REGEX}$"
     ),
     # beautysh
@@ -501,6 +503,13 @@ def parse_file(text):
         new_severity_group = result.pop("severity_group", None)
         severity_endgroup = result.pop("severity_endgroup", None)
         message = result.get("message", None)
+        dataset = result.get("dataset", None)
+
+        if dataset is not None:
+            if message is None:
+                message = ""
+            message += dataset
+            result["message"] = message
 
         has_group_instructions = False
 

@@ -1,0 +1,38 @@
+Time: 01:58.025, Memory: 152.00 MB
+
+There were 6 failures:
+
+1) LangTest::testLang with data set "ca_ES" ('ca_ES')
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\LangTest.php:263
+
+2) LangTest::testLang with data set "da_DK" ('da_DK')
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\LangTest.php:263
+
+3) LangTest::testLang with data set "el_GR" ('el_GR')
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\LangTest.php:263
+
+4) LangTest::testLang with data set "fr_CA" ('fr_CA')
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\LangTest.php:263
+
+5) LangTest::testLang with data set "lv_LV" ('lv_LV')
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\LangTest.php:263
+
+6) CodingPhpTest::testPHP with data set #1375 (array('donstats.class.php', 'D:\a\dolibarr\dolibarr\htdocs.../class', 'class', 'don/class/donstats.class.php', 'D:\a\dolibarr\dolibarr\htdocs...ss.php', '', '', 'file'))
+Found non sanitized string in building of a IN or NOT IN sql request don/class/donstats.class.php - Bad.
+Failed asserting that false is true.
+
+D:\a\dolibarr\dolibarr\test\phpunit\CodingPhpTest.php:513
+
+FAILURES!
+Tests: 2935, Assertions: 112671, Failures: 6.
+""

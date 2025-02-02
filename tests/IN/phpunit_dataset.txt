@@ -1,0 +1,6 @@
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/LangTest.php,line=263::Failed asserting that false is true. with data set "ca_ES" ('ca_ES')
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/LangTest.php,line=263::Failed asserting that false is true. with data set "da_DK" ('da_DK')
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/LangTest.php,line=263::Failed asserting that false is true. with data set "el_GR" ('el_GR')
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/LangTest.php,line=263::Failed asserting that false is true. with data set "fr_CA" ('fr_CA')
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/LangTest.php,line=263::Failed asserting that false is true. with data set "lv_LV" ('lv_LV')
+::error file=D%3A/a/dolibarr/dolibarr/test/phpunit/CodingPhpTest.php,line=513::Found non sanitized string in building of a IN or NOT IN sql request don/class/donstats.class.php - Bad.%0AFailed asserting that false is true. with data set #1375 (array('donstats.class.php', 'D:\a\dolibarr\dolibarr\htdocs.../class', 'class', 'don/class/donstats.class.php', 'D:\a\dolibarr\dolibarr\htdocs...ss.php', '', '', 'file'))
