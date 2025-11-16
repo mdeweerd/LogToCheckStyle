@@ -15,3 +15,13 @@ error: Assert status code
   3 | HTTP 200
     |      ^^^ actual value is <401>
     |
+
+Failure api/warehouses/10_warehouses.hurl (9 request(s) in 2985 ms)
+--------------------------------------------------------------------------------
+Executed files:    10
+Executed requests: 62 (7.9/s)
+Succeeded files:   3 (30.0%)
+Failed files:      7 (70.0%)
+Duration:          7867 ms
+
+

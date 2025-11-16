@@ -512,6 +512,11 @@ def parse_file(text):
         message = result.get("message", None)
         dataset = result.get("dataset", None)
 
+        # Some exclusions (false matches)
+        # Duration: From hurl log summary
+        if file_name == "Duration":
+            continue
+
         if dataset is not None:
             if message is None:
                 message = ""
