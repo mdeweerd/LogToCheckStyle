@@ -419,6 +419,13 @@ PATTERNS = [
         f"^{FILE_REGEX}{EOL_REGEX}"
         rf"\s+{LINE_REGEX}:{COLUMN_REGEX}\s+{SEVERITY_REGEX}\s+{MSG_REGEX}$"
     ),
+    # hurl:
+    #  error: Error message
+    #     --> api/contracts/10_contracts.hurl:3:6
+    re.compile(
+        f"^error: {MSG_REGEX}{EOL_REGEX}"
+        rf"\s+--> {FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}$"
+    ),
     # Phan:
     # path\to\file.php:379 PhanKey Message...
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX} {MSG_REGEX}$"),

@@ -1,0 +1,17 @@
+
+error: Assert status code
+  --> api/status/10_status.hurl:3:6
+   |
+   | GET http://{{hostnport}}/api/index.php/status
+ 3 | HTTP 200
+   |      ^^^ actual value is <401>
+   |
+
+Failure api/status/10_status.hurl (1 request(s) in 75 ms)
+error: Assert status code
+   --> api/emailtemplates/10_emailtemplates.hurl:3:6
+    |
+    | GET http://{{hostnport}}/api/index.php/emailtemplates
+  3 | HTTP 200
+    |      ^^^ actual value is <401>
+    |

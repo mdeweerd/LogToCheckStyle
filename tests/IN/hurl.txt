@@ -1,0 +1,2 @@
+::error file=api/status/10_status.hurl,line=3,col=6::Assert status code
+::error file=api/emailtemplates/10_emailtemplates.hurl,line=3,col=6::Assert status code

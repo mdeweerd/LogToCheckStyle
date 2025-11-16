@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="api/status/10_status.hurl"><error severity="error" line="3" column="6" message="Assert status code" /></file><file name="api/emailtemplates/10_emailtemplates.hurl"><error severity="error" line="3" column="6" message="Assert status code" /></file></checkstyle>
