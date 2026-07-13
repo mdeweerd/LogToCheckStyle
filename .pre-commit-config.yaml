@@ -4,7 +4,7 @@ exclude: ^(\.[^/]*cache/.*)$
 repos:
   - repo: https://github.com/executablebooks/mdformat
     # Do this before other tools "fixing" the line endings
-    rev: 0.7.17
+    rev: 1.0.0
     hooks:
       - id: mdformat
         name: Format Markdown
@@ -23,7 +23,7 @@ repos:
           - mdformat-gfm
           - setuptools
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: no-commit-to-branch
         args: [--branch, test_branch]
@@ -45,7 +45,7 @@ repos:
       - id: check-case-conflict
       # - id: check-toml
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: v1.38.0
     hooks:
       - id: yamllint
         args:
@@ -53,13 +53,13 @@ repos:
           - -d
           - '{extends: relaxed, rules: {line-length: {max: 90}}}'
   - repo: https://github.com/lovesegfault/beautysh.git
-    rev: v6.2.1
+    rev: v6.4.3
     hooks:
       - id: beautysh
         additional_dependencies:
           - setuptools  # workaround for beautysh
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.4.2
     hooks:
       - id: codespell
         args:
@@ -69,7 +69,7 @@ repos:
           - --skip="./.*"
           - --quiet-level=2
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
@@ -85,12 +85,12 @@ repos:
       - id: autoflake8
         args: [-i, -r, --expand-star-imports]
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 26.5.1
     hooks:
       - id: black
         args: [--safe, --quiet, -l 79]
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         args: [--ignore, 'E203']
@@ -102,12 +102,12 @@ repos:
           - pycodestyle
           - pyflakes
   - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+    rev: 9.0.0b1
     hooks:
       - id: isort
         args: [--profile, black]
   - repo: https://github.com/pylint-dev/pylint
-    rev: v3.0.3
+    rev: v4.0.6
     hooks:
       - id: pylint
         additional_dependencies:
@@ -115,7 +115,7 @@ repos:
           - requests
           - pytest
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.7.1
+    rev: v2.3.0
     hooks:
       - id: mypy
         args:
