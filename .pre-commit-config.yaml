@@ -126,7 +126,7 @@ repos:
           - --show-error-codes
           - --show-error-context
           - --disable-error-code=name-defined
-        additional_dependencies: [tkcalendar>=1.5.0, types-pytz, types-regex,types-requests]
+        additional_dependencies: [tkcalendar>=1.6.1, types-pytz, types-regex,types-requests]
   - repo: local
     hooks:
       - id: pytest
