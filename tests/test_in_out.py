@@ -2,6 +2,7 @@
 """
 Test log files in IN path versus expected outputs.
 """
+
 import os
 import subprocess
 import sys
