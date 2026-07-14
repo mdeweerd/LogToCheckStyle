@@ -1,0 +1,1 @@
+::error file=htdocs/modulebuilder/template/core/modules/modMyModule.class.php,line=531::syntax error, unexpected token "."

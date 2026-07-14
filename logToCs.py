@@ -419,6 +419,12 @@ PATTERNS = [
         f"^{FILE_REGEX}{EOL_REGEX}"
         rf"\s+{LINE_REGEX}:{COLUMN_REGEX}\s+{SEVERITY_REGEX}\s+{MSG_REGEX}$"
     ),
+    # php lint: php -l
+    # PHP Parse error:  syntax error, ... in path/to/file on line 531
+    re.compile(
+        rf"^PHP Parse error:\s+{MSG_REGEX} in {FILE_REGEX}"
+        f" on line {LINE_REGEX}$"
+    ),
     # hurl:
     #  error: Error message
     #     --> api/contracts/10_contracts.hurl:3:6
@@ -609,7 +615,9 @@ def parse_message(message):
     Returns the fields in a dict.
     """
     for pattern in PATTERNS:
+        # print(pattern.pattern)  # Help for debug
         fields = pattern.match(message, re.IGNORECASE)
+        # print(f"{fields!r} - {message}")  # Help for debug
         if not fields:
             continue
         result = fields.groupdict()
@@ -644,7 +652,7 @@ def parse_message(message):
     return None
 
 
-def add_error_entry(  # pylint: disable=too-many-arguments,unused-argument
+def add_error_entry(  # pylint: disable=too-many-arguments,unused-argument,too-many-positional-arguments  # noqa: E501
     root,
     severity,
     file_name,

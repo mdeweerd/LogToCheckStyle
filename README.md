@@ -153,6 +153,9 @@ In the script, patterns can be added to "PATTERNS" to match more messages.
 
 To allow multiline patterns, the python module 'regex' is required.
 
+To debug, `python3 -m trace --ignore-dir=/usr/lib -t LogToCs.py` can be
+used where you would just call the script to get a line by line trace.
+
 ## Author(s):
 
 - [mdeweerd]

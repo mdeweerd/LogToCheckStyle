@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="htdocs/modulebuilder/template/core/modules/modMyModule.class.php"><error severity="error" line="531" message="syntax error, unexpected token &quot;.&quot;" /></file></checkstyle>
