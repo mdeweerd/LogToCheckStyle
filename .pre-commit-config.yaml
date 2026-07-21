@@ -59,7 +59,7 @@ repos:
         additional_dependencies:
           - setuptools  # workaround for beautysh
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         args:
