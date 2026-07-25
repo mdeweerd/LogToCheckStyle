@@ -386,16 +386,14 @@ PATTERNS = [
     #  path/to/file.js:10:2: Some linting issue
     #  path/to/file.rb:10:5: Style/Indentation: Incorrect indentation detected
     #  path/to/script.sh:10:1: SC2034: Some shell script issue
-    re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}: {MSG_REGEX}$"),
+    re.compile(rf"^{FILE_REGEX}:{LINE_REGEX}:{COLUMN_REGEX}:\s{MSG_REGEX}$"),
     # Cpplint default output:
     #           '%s:%s:  %s  [%s] [%d]\n'
     #   % (filename, linenum, message, category, confidence)
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{MSG_REGEX}{CONFIDENCE_REGEX}$"),
     # MSVC
     # file.cpp(10): error C1234: Some error message
-    re.compile(
-        f"^{FILE_REGEX}\\({LINE_REGEX}\\):{SEVERITY_REGEX}{MSG_REGEX}$"
-    ),
+    re.compile(rf"^{FILE_REGEX}\({LINE_REGEX}\):{SEVERITY_REGEX}{MSG_REGEX}$"),
     # Java compiler
     # File.java:10: error: Some error message
     re.compile(f"^{FILE_REGEX}:{LINE_REGEX}:{SEVERITY_REGEX}:{MSG_REGEX}$"),
