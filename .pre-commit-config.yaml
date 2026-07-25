@@ -59,7 +59,7 @@ repos:
         additional_dependencies:
           - setuptools  # workaround for beautysh
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         args:
@@ -126,7 +126,7 @@ repos:
           - --show-error-codes
           - --show-error-context
           - --disable-error-code=name-defined
-        additional_dependencies: [tkcalendar>=1.5.0, types-pytz, types-regex,types-requests]
+        additional_dependencies: [tkcalendar>=1.6.1, types-pytz, types-regex,types-requests]
   - repo: local
     hooks:
       - id: pytest
