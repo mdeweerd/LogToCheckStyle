@@ -39,7 +39,7 @@ optional arguments:
   --github-annotate, --no-github-annotate
                         Annotate when in Github workflow. (default: False)
   --gitlab, --no-gitlab
-                        Generate gitlab report (artefact) when in Gitlab workflow. (default: False)
+                        Generate gitlab report (artifact) when in Gitlab workflow. (default: False)
   --name-only, --no-name-only
                         Report filenames only. (default: False)
 ```
@@ -50,7 +50,7 @@ optional arguments:
 
 ```yaml
   - name: Convert Raw Log to Checkstyle format (launch action)
-    uses: mdeweerd/logToCheckStyle@v2026.7.1
+    uses: mdeweerd/logToCheckStyle@v2026.8.1
     if: ${{ failure() }}
     with:
       in: ${{ env.RAW_LOG }}
@@ -100,6 +100,62 @@ Use cs2pr commands to generate the GitHub annotations.
 ```
 
 ## Tips
+
+##### Advanced Usage: AI Tool Integration
+
+When integrating pre-commit hooks with AI models that process logs, it is
+beneficial to provide a reduced output while retaining the full log for
+debugging. This method pipes the output of `pre-commit run -a` through
+`tee` and then processes it using our script.
+
+**Example:**
+
+```bash
+pre-commit run -a |& tee ai_tool.log | logToCs.py --gitlab
+```
+
+Sample prompt to AI tool:
+
+```md
+Run all relevant checks and pipe the full output using the next template:
+   `TOOL_WITH_ARGS |& tee LOGFILE | logToCs.py --gitlab`
+
+Example:
+   `pre-commit run -a |& tee ai_tool.log | logToCs.py --gitlab`
+
+This outputs a concise JSON summary while keeping the complete, detailed pre-commit log in `ai_tool.log`.
+```
+
+**Sample Output:**
+
+The script outputs a JSON array containing structured error/warning
+messages, including descriptions, file paths, line numbers, and severity
+levels (e.g., `error`, `warning`).
+
+```json
+[
+  {
+    "description": "Expected 'MSG1\\r' Was 'MSG1'. Event data should match original message with CR terminator",
+    "location": {
+      "path": "test/test_module.c",
+      "lines": {
+        "begin": "607"
+      }
+    },
+    "severity": "error"
+  },
+  {
+    "description": "built-in ==> built-in",
+    "location": {
+      "path": "README.md",
+      "lines": {
+        "begin": "1150"
+      }
+    },
+    "severity": "error"
+  }
+]
+```
 
 ### PHP Codesniffer (AKA php-cs, phpcs)
 
