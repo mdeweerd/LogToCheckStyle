@@ -102,12 +102,12 @@ repos:
           - pycodestyle
           - pyflakes
   - repo: https://github.com/PyCQA/isort
-    rev: 9.0.0b1
+    rev: 9.0.0b2
     hooks:
       - id: isort
         args: [--profile, black]
   - repo: https://github.com/pylint-dev/pylint
-    rev: v4.0.6
+    rev: v4.0.7
     hooks:
       - id: pylint
         additional_dependencies:
