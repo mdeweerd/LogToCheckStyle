@@ -1,0 +1,19 @@
+FAILED TEST SUMMARY
+-------------------
+[test/test_module.c]
+  Test: test_event_stack_failing_messages
+  At line (607): "Expected 'MSG1\r' Was 'MSG1'. Event data should match original message with CR terminator"
+
+-----------------------
+❌ OVERALL TEST SUMMARY
+-----------------------
+TESTED:  8
+PASSED:  7
+FAILED:  1
+IGNORED: 0
+
+---------------------
+BUILD FAILURE SUMMARY
+---------------------
+Unit test failures.
+

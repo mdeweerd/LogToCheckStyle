@@ -1,0 +1,1 @@
+::error file=test/test_module.c,line=607::Expected 'MSG1\r' Was 'MSG1'. Event data should match original message with CR terminator

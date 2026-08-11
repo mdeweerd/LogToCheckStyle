@@ -336,6 +336,7 @@ CLASS_METHOD_REGEX = (
 PHPUNIT_DATASET_REGEX = (
     r"(?P<dataset> with data set (?:#\d+|\"[^\"]+\") \([^\n]*\))"
 )
+TEST_NAME_REGEX = rf"(?P<test_name>{IDENTIFIER_REGEX})"
 
 # List of message patterns, add more specific patterns earlier in the list
 # Creating patterns by using constants makes them easier to define and read.
@@ -440,6 +441,15 @@ PATTERNS = [
     re.compile(
         rf"^(?:PHP )(Fatal )?{SEVERITY_REGEX}:{MSG_REGEX}"
         rf" in {FILE_REGEX} on line {LINE_REGEX}$"
+    ),
+    # Ceedling
+    # [test/test_ble.c]
+    #   Test: test_event_stack_failing_messages
+    #   At line (607): "Expected 'MSG1\r' Was 'MSG1'."
+    re.compile(
+        rf"^\[{FILE_REGEX}\]{EOL_REGEX}"
+        rf"\s*Test: {TEST_NAME_REGEX}{EOL_REGEX}"
+        rf"\s*At line \({LINE_REGEX}\): \"{MSG_REGEX}\""
     ),
 ]
 

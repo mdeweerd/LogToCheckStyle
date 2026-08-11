@@ -1,0 +1,2 @@
+.File log_server_intervention.sh: error: indent/outdent mismatch: 2.
+beautysh.formatter - ERROR: Indent/outdent mismatch: final tab level = 2

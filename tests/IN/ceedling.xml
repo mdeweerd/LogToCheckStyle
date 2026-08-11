@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="test/test_module.c"><error severity="error" line="607" message="Expected 'MSG1\r' Was 'MSG1'. Event data should match original message with CR terminator" /></file></checkstyle>
