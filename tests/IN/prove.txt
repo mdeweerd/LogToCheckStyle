@@ -1,0 +1,1 @@
+::error file=t/lib/Test/Example.pm,line=264::WFX configuration update failed (updateCurrentConfig was false)

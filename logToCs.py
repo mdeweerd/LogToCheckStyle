@@ -333,6 +333,10 @@ CLASS_METHOD_REGEX = (
     rf"\s*(?P<classname>{IDENTIFIER_REGEX})"
     rf"::(?P<method>{IDENTIFIER_REGEX})\b\s*?"
 )
+CLASS_METHOD2_REGEX = (
+    rf"\s*(?P<classname>{IDENTIFIER_REGEX}::{IDENTIFIER_REGEX})"
+    rf"->(?P<method>{IDENTIFIER_REGEX})\b\s*?"
+)
 PHPUNIT_DATASET_REGEX = (
     r"(?P<dataset> with data set (?:#\d+|\"[^\"]+\") \([^\n]*\))"
 )
@@ -450,6 +454,15 @@ PATTERNS = [
         rf"^\[{FILE_REGEX}\]{EOL_REGEX}"
         rf"\s*Test: {TEST_NAME_REGEX}{EOL_REGEX}"
         rf"\s*At line \({LINE_REGEX}\): \"{MSG_REGEX}\""
+    ),
+    # prove (Perl)
+    # #   Failed test 'WFX configuration update failed'
+    # #   at t/lib/Test/Example.pm line 264.
+    # #   (in Test::Example->test_wfx_message_decoding)
+    re.compile(
+        rf"#\s*Failed test\s+'{MSG_REGEX}'{EOL_REGEX}"
+        rf"#\s*at{FILE_REGEX}line{LINE_REGEX}\s*.{EOL_REGEX}"
+        rf"#\s*\(in\s+{CLASS_METHOD2_REGEX}\)"
     ),
 ]
 

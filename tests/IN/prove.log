@@ -1,0 +1,3 @@
+#   Failed test 'WFX configuration update failed (updateCurrentConfig was false)'
+#   at t/lib/Test/Example.pm line 264.
+#   (in Test::Example->test_wfx_message_decoding)

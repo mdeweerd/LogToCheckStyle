@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf_8'?>
+<checkstyle version="6.5"><file name="t/lib/Test/Example.pm"><error severity="error" line="264" message="WFX configuration update failed (updateCurrentConfig was false)" /></file></checkstyle>
