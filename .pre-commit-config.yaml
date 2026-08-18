@@ -115,7 +115,7 @@ repos:
           - requests
           - pytest
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v2.3.0
+    rev: v2.3.1
     hooks:
       - id: mypy
         args:
